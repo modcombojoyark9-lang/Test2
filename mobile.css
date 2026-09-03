@@ -1,0 +1,1934 @@
+/* ========================================================================== 
+   MihanCraft Android — mobile-first product shell
+   Loaded after styles.css. Every rule is scoped to html.mobile-ui so the
+   desktop/Tauri layout stays intact while Android gets a purpose-built UI.
+   ========================================================================== */
+
+.bottom-nav,
+.mobile-top-leading,
+.mobile-top-actions,
+.mobile-drawer-close { display: none; }
+
+.sr-only {
+  position: fixed !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+html.mobile-ui {
+  /* Core color roles. --accent is supplied by the system/dynamic-color bridge. */
+  --app-bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-low: #f8fafc;
+  --surface-mid: #edf2f7;
+  --surface-high: #e5ebf2;
+  --panel: var(--surface);
+  --panel-2: var(--surface-mid);
+  --glass: var(--surface);
+  --glass-2: var(--surface-low);
+  --menu-bg: var(--surface);
+  --text: #111821;
+  --text-2: #4e5d6c;
+  --text-3: #748292;
+  --border: rgba(20, 35, 50, .10);
+  --glass-brd: var(--border);
+  --glass-brd-2: color-mix(in srgb, var(--accent) 34%, transparent);
+  --hover: rgba(20, 35, 50, .05);
+  --hover-2: rgba(20, 35, 50, .09);
+  --track: rgba(20, 35, 50, .13);
+  --success: #087f5b;
+  --success-bg: #e8f7f1;
+  --warning: #a65b00;
+  --warning-bg: #fff3df;
+  --danger: #c73544;
+  --danger-bg: #ffedf0;
+  --info: #1b69bf;
+  --info-bg: #eaf3ff;
+  --green: var(--success);
+  --red: var(--danger);
+  --orange: var(--warning);
+
+  /* 4/8dp spacing, shape, elevation and motion tokens. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 30px;
+  --shadow-1: 0 1px 2px rgba(19, 33, 48, .06);
+  --shadow-2: 0 8px 28px rgba(19, 33, 48, .10);
+  --shadow-3: 0 18px 52px rgba(8, 18, 30, .20);
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(.2, .8, .2, 1);
+  color-scheme: light;
+}
+
+html.mobile-ui[data-theme="dark"] {
+  --app-bg: #09111a;
+  --surface: #111b25;
+  --surface-low: #0e1720;
+  --surface-mid: #192633;
+  --surface-high: #223140;
+  --panel: var(--surface);
+  --panel-2: var(--surface-mid);
+  --glass: var(--surface);
+  --glass-2: var(--surface-low);
+  --menu-bg: var(--surface-mid);
+  --text: #f1f5f8;
+  --text-2: #b4c0cb;
+  --text-3: #8292a2;
+  --border: rgba(220, 235, 247, .10);
+  --glass-brd: var(--border);
+  --hover: rgba(255, 255, 255, .055);
+  --hover-2: rgba(255, 255, 255, .10);
+  --track: rgba(255, 255, 255, .14);
+  --success: #65d6ad;
+  --success-bg: rgba(38, 186, 132, .14);
+  --warning: #ffc266;
+  --warning-bg: rgba(245, 158, 11, .15);
+  --danger: #ff8d98;
+  --danger-bg: rgba(239, 68, 68, .15);
+  --info: #80baff;
+  --info-bg: rgba(59, 130, 246, .15);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .24);
+  --shadow-2: 0 10px 32px rgba(0, 0, 0, .28);
+  --shadow-3: 0 20px 60px rgba(0, 0, 0, .48);
+  color-scheme: dark;
+}
+
+html.mobile-ui,
+html.mobile-ui body {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--app-bg) !important;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+html.mobile-ui body { touch-action: manipulation; }
+html.mobile-ui * { scrollbar-width: none; }
+html.mobile-ui *::-webkit-scrollbar { width: 0; height: 0; }
+
+html.mobile-ui button,
+html.mobile-ui input,
+html.mobile-ui textarea,
+html.mobile-ui select { font-family: "Vazirmatn", sans-serif; }
+
+html.mobile-ui button,
+html.mobile-ui [role="button"],
+html.mobile-ui .nav-item,
+html.mobile-ui .chip,
+html.mobile-ui .srv-tab,
+html.mobile-ui .kind-card,
+html.mobile-ui .theme-opt { touch-action: manipulation; }
+
+html.mobile-ui input,
+html.mobile-ui textarea,
+html.mobile-ui [contenteditable="true"],
+html.mobile-ui .CodeMirror {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Product shell ----------------------------------------------------------- */
+html.mobile-ui .titlebar { display: none !important; }
+
+html.mobile-ui .layout {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: hidden;
+}
+
+html.mobile-ui .main {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  gap: 0 !important;
+  background: var(--app-bg);
+}
+
+html.mobile-ui .topbar {
+  display: flex !important;
+  flex: 0 0 auto;
+  min-height: calc(64px + env(safe-area-inset-top, 0px));
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 16px 8px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border-bottom: 1px solid var(--border);
+  z-index: 30;
+}
+
+html.mobile-ui .mobile-top-leading,
+html.mobile-ui .mobile-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+html.mobile-ui .mobile-top-leading { flex: 1; }
+
+html.mobile-ui .page-title {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: -.25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html.mobile-ui .page-title > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html.mobile-ui .page-title .pt-ico {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--accent-2);
+  background: var(--accent-soft);
+  border: 0;
+}
+
+html.mobile-ui .mobile-icon-btn,
+html.mobile-ui .mobile-account-btn {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  color: var(--text-2);
+  background: transparent;
+}
+
+html.mobile-ui .mobile-icon-btn:active,
+html.mobile-ui .mobile-account-btn:active { background: var(--hover-2); }
+
+html.mobile-ui .mobile-account-btn {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--on-accent, #fff);
+  font-weight: 800;
+}
+
+html.mobile-ui .mobile-account-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+html.mobile-ui .mobile-download-badge {
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--surface);
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+}
+html.mobile-ui .mobile-download-badge[hidden] { display: none !important; }
+
+html.mobile-ui .page-area {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 14px 16px calc(96px + env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  -webkit-overflow-scrolling: touch;
+}
+
+html.mobile-ui .page-content,
+html.mobile-ui .page-shell,
+html.mobile-ui .fade-in { width: 100%; min-width: 0; }
+
+html.mobile-ui #adGlobalHeader:empty { display: none; }
+/* styles.css این جایگاه را با #adGlobalHeader{display:none} خاموش می‌کند (دسکتاپ تبلیغش را
+   جای دیگری می‌گذارد). قاعده‌ی زیر فقط margin می‌داد، پس روی اندروید حتی وقتی کارت ساخته
+   می‌شد باز هم display:none می‌ماند و هیچ تبلیغی دیده نمی‌شد. */
+html.mobile-ui #adGlobalHeader:not(:empty) { display: block; margin: 10px 16px 0; }
+html.mobile-ui .left-sidebar { display: none !important; }
+
+/* Full navigation drawer -------------------------------------------------- */
+html.mobile-ui .sidebar:not(.left-sidebar) {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: auto;
+  z-index: 120;
+  width: min(360px, 89vw);
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 14px calc(16px + env(safe-area-inset-bottom, 0px));
+  border: 0;
+  border-inline-end: 0;
+  border-radius: 28px 0 0 28px;
+  background: var(--surface) !important;
+  transform: translateX(104%);
+  box-shadow: var(--shadow-3) !important;
+  transition: transform 260ms var(--ease-standard) !important;
+}
+
+html.mobile-ui body.nav-open .sidebar:not(.left-sidebar) { transform: translateX(0); }
+
+html.mobile-ui .nav-scrim {
+  inset: 0;
+  z-index: 110;
+  background: rgba(4, 12, 20, .58);
+  backdrop-filter: none !important;
+}
+
+html.mobile-ui body.nav-open .nav-scrim { display: block; }
+
+html.mobile-ui .brand {
+  min-height: 68px;
+  padding: 4px 8px 14px;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+html.mobile-ui .brand-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: var(--accent);
+  box-shadow: none !important;
+}
+
+html.mobile-ui .brand-name { font-size: 15px; font-weight: 800; }
+html.mobile-ui .brand-sub { font-size: 11px; color: var(--text-3); }
+html.mobile-ui .mobile-drawer-close {
+  width: 48px;
+  height: 48px;
+  margin-inline-start: auto;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 15px;
+  color: var(--text-2);
+  background: var(--surface-mid);
+}
+html.mobile-ui .nav-label { display: none; }
+
+html.mobile-ui #nav {
+  gap: 3px;
+  padding: 10px 2px 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+html.mobile-ui .nav-section-title {
+  padding: 16px 12px 6px;
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+html.mobile-ui .nav-item {
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 9px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 13.5px;
+  text-align: right;
+}
+
+html.mobile-ui .nav-item .ico {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  color: var(--text-2);
+  background: var(--surface-mid);
+}
+
+html.mobile-ui .nav-item.active {
+  color: var(--accent-2);
+  background: var(--accent-soft);
+  border: 0;
+  font-weight: 700;
+}
+
+html.mobile-ui .nav-item.active::before { display: none; }
+html.mobile-ui .nav-item.active .ico {
+  color: var(--accent-2);
+  background: color-mix(in srgb, var(--accent) 17%, var(--surface));
+  box-shadow: none !important;
+}
+
+html.mobile-ui .sidebar-foot {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+html.mobile-ui .account-card {
+  min-height: 62px;
+  padding: 9px;
+  border: 0;
+  border-radius: 17px;
+  background: var(--surface-mid);
+}
+
+/* Thumb-zone bottom navigation ------------------------------------------- */
+html.mobile-ui .bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 90;
+  min-height: calc(72px + env(safe-area-inset-bottom, 0px));
+  padding: 6px max(8px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(8px, env(safe-area-inset-left, 0px));
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  direction: rtl;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -8px 30px rgba(10, 25, 40, .07) !important;
+}
+
+html.mobile-ui .bottom-nav-item {
+  position: relative;
+  min-width: 0;
+  min-height: 60px;
+  padding: 5px 2px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 0;
+  border-radius: 17px;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+html.mobile-ui .bottom-nav-item .bottom-nav-ico {
+  width: 34px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+}
+
+html.mobile-ui .bottom-nav-item.active { color: var(--accent-2); }
+html.mobile-ui .bottom-nav-item.active .bottom-nav-ico {
+  width: 52px;
+  background: var(--accent-soft);
+}
+
+/* Type and layout --------------------------------------------------------- */
+html.mobile-ui h1,
+html.mobile-ui h2,
+html.mobile-ui h3 { line-height: 1.4; letter-spacing: -.2px; }
+html.mobile-ui h2 { font-size: 22px; }
+html.mobile-ui h3 { font-size: 18px; }
+html.mobile-ui .muted { color: var(--text-2); font-size: 13.5px; line-height: 1.85; }
+html.mobile-ui .dim { color: var(--text-3); font-size: 12px; line-height: 1.75; }
+
+html.mobile-ui .grid,
+html.mobile-ui .grid-2,
+html.mobile-ui .grid-3,
+html.mobile-ui .kind-grid,
+html.mobile-ui .props-grid,
+html.mobile-ui .sv-stats,
+html.mobile-ui .sv-stats-5 {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 12px;
+}
+
+html.mobile-ui .row { gap: 10px; min-width: 0; }
+html.mobile-ui .row > * { min-width: 0; }
+html.mobile-ui .row.spread { align-items: center; }
+
+html.mobile-ui img,
+html.mobile-ui svg,
+html.mobile-ui canvas,
+html.mobile-ui video,
+html.mobile-ui iframe { max-width: 100%; }
+
+/* ⚠ آرتِ رِگ‌های پلاک از این قاعده مستثناست.
+   این تصویرها عمداً از کادر بزرگ‌ترند — styles.css رویشان ‎max-width: none‎ می‌گذارد و
+   عرضشان بیش از ۱۰۰٪ است تا صحنه جا برای پن/زوم داشته باشد. قاعده‌ی عمومیِ بالا آن‌ها
+   را به ۱۰۰٪ می‌چسباند و چون ‎object-fit: fill‎ دارند به‌جای برش، *فشرده* می‌شوند:
+   «حوض جنگلی تصویرش کشیده شده». اندازه‌گیری روی گوشی: ۲۸۵px → ۲۴۶px، یعنی ۱۴٪
+   فشردگیِ افقی روی تصویری با نسبتِ ۱۹۰۳×۸۲۶.
+   پوسترها داخلِ .pro-plate-zoom‌اند نه .nx-row-plate، پس دست‌نخورده می‌مانند. */
+html.mobile-ui .nx-row-plate img { max-width: none; }
+
+html.mobile-ui pre,
+html.mobile-ui code,
+html.mobile-ui table,
+html.mobile-ui .CodeMirror,
+html.mobile-ui .console,
+html.mobile-ui .log {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+html.mobile-ui .mono,
+html.mobile-ui .url,
+html.mobile-ui .token,
+html.mobile-ui .acc-name,
+html.mobile-ui .inst-title,
+html.mobile-ui .li-title,
+html.mobile-ui .file-name {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* The server address is deliberately NOT in the list above. It is the one string a user reads off
+   the screen and retypes for a friend, so it must only break where app.js put a <wbr> (the dots) —
+   "anywhere" split it mid-label and even cut the port across lines ("...com:255" / "66"), and a
+   port that looks like part of the next line is exactly how it gets dropped. Losing it is not a
+   visible failure: port 25565 on the relay host answers with a different network's server. */
+html.mobile-ui .tunnel-addr {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Surfaces and reusable components --------------------------------------- */
+html.mobile-ui .glass,
+html.mobile-ui .glass-2,
+html.mobile-ui .card {
+  max-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1) !important;
+}
+
+html.mobile-ui .card {
+  padding: 16px;
+  border-radius: var(--radius);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
+}
+
+html.mobile-ui .card + .card { margin-top: 12px; }
+html.mobile-ui [class*="grid"] > .card + .card,
+html.mobile-ui .row .card + .card { margin-top: 0; }
+
+html.mobile-ui .section-title {
+  margin-bottom: 12px;
+  gap: 10px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+html.mobile-ui .section-title .sec-ico {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--accent-2);
+  background: var(--accent-soft);
+}
+
+html.mobile-ui .btn {
+  position: relative;
+  min-height: 48px;
+  padding: 11px 17px;
+  gap: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: none !important;
+  font-size: 13.5px;
+  font-weight: 750;
+  transition: transform 110ms var(--ease-standard), background-color 160ms var(--ease-standard), border-color 160ms var(--ease-standard) !important;
+}
+
+html.mobile-ui .btn:active { transform: scale(.975); }
+html.mobile-ui .btn:disabled {
+  opacity: 1;
+  color: var(--text-3);
+  background: var(--surface-mid);
+  border-color: transparent;
+}
+
+html.mobile-ui .btn-primary,
+html.mobile-ui .btn-success,
+html.mobile-ui .btn-accent2 {
+  color: var(--on-accent, #fff);
+  background: var(--accent) !important;
+  background-image: none !important;
+  border-color: transparent;
+}
+
+html.mobile-ui .btn-danger {
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-color: color-mix(in srgb, var(--danger) 24%, transparent);
+}
+
+html.mobile-ui .btn-ghost { background: transparent; border-color: transparent; }
+html.mobile-ui .btn-lg { min-height: 56px; padding: 14px 22px; border-radius: 18px; font-size: 15px; }
+html.mobile-ui .btn-sm { min-height: 44px; padding: 9px 13px; border-radius: 13px; font-size: 12px; }
+html.mobile-ui .btn-icon,
+html.mobile-ui .btn-sm.btn-icon { width: 48px; min-width: 48px; padding: 0; }
+html.mobile-ui .btn-sm.btn-icon { width: 44px; min-width: 44px; }
+
+html.mobile-ui .touch-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: currentColor;
+  opacity: .14;
+  transform: translate(-50%, -50%) scale(0);
+  animation: touchRipple 420ms var(--ease-standard) forwards !important;
+}
+
+@keyframes touchRipple {
+  to { opacity: 0; transform: translate(-50%, -50%) scale(18); }
+}
+
+html.mobile-ui .input,
+html.mobile-ui input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+html.mobile-ui select,
+html.mobile-ui textarea,
+html.mobile-ui .dd-trigger {
+  min-height: 52px;
+  width: 100%;
+  max-width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface-low);
+  color: var(--text);
+  font-size: 14px;
+}
+
+html.mobile-ui textarea { min-height: 112px; resize: vertical; }
+html.mobile-ui .input:focus,
+html.mobile-ui input:focus,
+html.mobile-ui textarea:focus,
+html.mobile-ui select:focus,
+html.mobile-ui .dd.open .dd-trigger {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+  outline: none;
+}
+
+html.mobile-ui .field { gap: 7px; }
+html.mobile-ui .field > span:first-child,
+html.mobile-ui .field-lbl { color: var(--text-2); font-size: 12.5px; font-weight: 700; }
+html.mobile-ui input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); }
+
+html.mobile-ui .dd { width: 100%; max-width: none !important; }
+html.mobile-ui .dd-menu {
+  max-height: min(46vh, 360px);
+  padding: 6px;
+  border-radius: 18px;
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-3) !important;
+}
+html.mobile-ui .dd-item { min-height: 48px; padding: 10px 12px; border-radius: 12px; }
+
+html.mobile-ui .list-item {
+  min-height: 64px;
+  padding: 11px;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-low);
+  box-shadow: none !important;
+}
+
+html.mobile-ui .list-item:hover,
+html.mobile-ui .srv-row:hover { transform: none; box-shadow: none !important; }
+html.mobile-ui .li-ico { width: 42px; height: 42px; border-radius: 13px; }
+
+html.mobile-ui .tag {
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+html.mobile-ui .tag.green { color: var(--success); background: var(--success-bg); }
+html.mobile-ui .tag.red { color: var(--danger); background: var(--danger-bg); }
+html.mobile-ui .tag.orange { color: var(--warning); background: var(--warning-bg); }
+html.mobile-ui .tag.amber { color: var(--warning); background: var(--warning-bg); }
+html.mobile-ui .tag.blue { color: var(--info); background: var(--info-bg); }
+
+html.mobile-ui .srv-row.is-incomplete { align-items: flex-start; }
+html.mobile-ui .srv-inline-error {
+  margin-top: 5px;
+  color: var(--danger);
+  font-size: 11.5px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+html.mobile-ui .srv-inline-error.is-note { color: var(--warning); }
+
+html.mobile-ui .chips,
+html.mobile-ui .srv-tabs,
+html.mobile-ui .theme-row,
+html.mobile-ui .accent-row {
+  width: calc(100% + 16px);
+  margin-inline-end: -16px;
+  padding-inline-end: 16px;
+  display: flex;
+  flex-wrap: nowrap !important;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+html.mobile-ui .chip,
+html.mobile-ui .srv-tab,
+html.mobile-ui .theme-opt {
+  min-height: 44px;
+  flex: 0 0 auto;
+  padding: 9px 14px;
+  border-radius: 14px;
+  scroll-snap-align: start;
+}
+
+html.mobile-ui .progress,
+html.mobile-ui .tbi-bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-high);
+}
+
+html.mobile-ui .progress > div,
+html.mobile-ui .tbi-bar > div {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 180ms linear !important;
+}
+
+/* Home: one obvious primary action --------------------------------------- */
+html.mobile-ui .hero-row { display: block; }
+html.mobile-ui .hero {
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, var(--surface)), var(--surface));
+  box-shadow: var(--shadow-1) !important;
+}
+
+html.mobile-ui.perf-mode .hero,
+html.mobile-ui .hero { background-image: none !important; background-color: color-mix(in srgb, var(--accent) 8%, var(--surface)) !important; }
+html.mobile-ui .hero::after { display: none; }
+html.mobile-ui .hero h2 { margin-bottom: 5px; font-size: 23px; }
+html.mobile-ui .hero h2 span { background: none; -webkit-text-fill-color: currentColor; color: var(--text); }
+html.mobile-ui .hero .muted { font-size: 14px; }
+
+html.mobile-ui .hero > .row,
+html.mobile-ui .hero .row[style*="margin-top"] {
+  margin-top: 18px !important;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px !important;
+}
+
+html.mobile-ui .hero .btn-primary.btn-lg {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  min-height: 60px;
+  font-size: 16px;
+}
+
+html.mobile-ui .hero .dd { grid-column: 1 / -1; grid-row: 2; }
+html.mobile-ui .hero .row > .btn:not(.btn-primary) { grid-column: 1 / -1; width: 100%; }
+
+html.mobile-ui .news-side {
+  width: 100%;
+  max-width: none;
+  margin-top: 12px;
+}
+
+html.mobile-ui .news-item,
+html.mobile-ui .news-card { border-radius: var(--radius); overflow: hidden; }
+html.mobile-ui #homeConsole { height: 180px !important; font-size: 11px; }
+
+/* Server list and management --------------------------------------------- */
+html.mobile-ui .srv-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  padding: 13px;
+}
+
+html.mobile-ui .srv-row > .li-ico { grid-column: 1; grid-row: 1 / span 2; }
+html.mobile-ui .srv-row > div[style*="flex:1"] { grid-column: 2; grid-row: 1; }
+html.mobile-ui .srv-row > .tag { grid-column: 3; grid-row: 1; }
+html.mobile-ui .srv-row > .btn {
+  grid-row: 2;
+  margin-top: 9px;
+}
+html.mobile-ui .srv-row > .btn-primary { grid-column: 2; width: 100%; }
+html.mobile-ui .srv-row > .btn-danger { grid-column: 3; width: 44px; min-width: 44px; padding: 0; font-size: 0; }
+html.mobile-ui .srv-row > .btn-danger svg { width: 17px; height: 17px; }
+
+html.mobile-ui .kind-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px;
+}
+
+html.mobile-ui .kind-card {
+  min-height: 92px;
+  padding: 12px;
+  border-radius: 16px;
+}
+html.mobile-ui .kind-desc { font-size: 10.5px; line-height: 1.6; }
+
+html.mobile-ui .field-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 12px;
+  color: var(--text-2);
+  background: var(--info-bg);
+  border-radius: 14px;
+  font-size: 12px;
+}
+html.mobile-ui .field-hint svg { flex: 0 0 auto; margin-top: 3px; color: var(--info); }
+html.mobile-ui .advanced-options {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-low);
+  overflow: hidden;
+}
+html.mobile-ui .advanced-options > summary {
+  min-height: 50px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+}
+html.mobile-ui .advanced-options > summary::-webkit-details-marker { display: none; }
+html.mobile-ui .advanced-options > summary::after { content: "⌄"; margin-inline-start: auto; color: var(--text-3); transition: transform 180ms var(--ease-standard); }
+html.mobile-ui .advanced-options[open] > summary::after { transform: rotate(180deg); }
+html.mobile-ui .advanced-options-body { display: grid; gap: 12px; padding: 0 14px 14px; }
+
+html.mobile-ui .srv-head { flex-direction: column; align-items: stretch; }
+html.mobile-ui .srv-head .row { width: 100%; }
+html.mobile-ui .srv-head .btn { flex: 1; }
+html.mobile-ui .srv-tabs { margin-bottom: 12px; }
+html.mobile-ui .tunnel-addr { font-size: 14px; padding: 12px; border-width: 1px; }
+
+/* Dialogs become ergonomic bottom sheets -------------------------------- */
+html.mobile-ui .modal-backdrop {
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(3, 11, 19, .60);
+  z-index: 200;
+}
+
+html.mobile-ui .modal {
+  width: 100%;
+  max-width: 760px;
+  max-height: min(90dvh, calc(100dvh - env(safe-area-inset-top, 0px) - 12px));
+  margin: 0;
+  padding: 0 18px calc(16px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-radius: 28px 28px 0 0;
+  background: var(--surface) !important;
+  box-shadow: var(--shadow-3) !important;
+  animation: mobileSheetIn 260ms var(--ease-emphasized) both !important;
+}
+
+@keyframes mobileSheetIn {
+  from { opacity: .65; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html.mobile-ui .modal::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: block;
+  width: 42px;
+  height: 4px;
+  margin: 9px auto 3px;
+  border-radius: 999px;
+  background: var(--track);
+}
+
+html.mobile-ui .modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-height: 64px;
+  margin: 0 -2px 12px;
+  padding: 9px 2px 8px;
+  align-items: center;
+  background: var(--surface);
+}
+
+html.mobile-ui .modal-head h3 { margin: 0; font-size: 19px; font-weight: 850; }
+html.mobile-ui .modal-x { margin-inline-start: auto; }
+
+html.mobile-ui .modal .modal-actions {
+  position: sticky;
+  bottom: calc(-16px - env(safe-area-inset-bottom, 0px));
+  z-index: 3;
+  margin: 20px -18px 0;
+  padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+html.mobile-ui .modal .modal-actions > .btn:only-child { grid-column: 1 / -1; }
+
+html.mobile-ui .toast {
+  right: 16px;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  left: 16px;
+  width: auto;
+  max-width: 540px;
+  min-height: 52px;
+  margin-inline: auto;
+  padding: 12px 14px;
+  transform: translateY(16px);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--info);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-2) !important;
+}
+html.mobile-ui .toast.show { transform: translateY(0); }
+html.mobile-ui .toast.success { border-inline-start-color: var(--success); }
+html.mobile-ui .toast.error { border-inline-start-color: var(--danger); }
+
+/* Skeletons and explicit states ------------------------------------------ */
+html.mobile-ui .page-skeleton { display: grid; gap: 12px; }
+html.mobile-ui .skeleton-card {
+  height: 142px;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+html.mobile-ui .skeleton-card.hero-skeleton { height: 220px; border-radius: var(--radius-lg); }
+html.mobile-ui .skeleton-line {
+  height: 13px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: var(--surface-high);
+  animation: skeletonPulse 1.25s ease-in-out infinite alternate !important;
+}
+html.mobile-ui .skeleton-line.short { width: 42%; }
+html.mobile-ui .skeleton-line.medium { width: 68%; }
+@keyframes skeletonPulse { to { opacity: .46; } }
+
+html.mobile-ui .empty,
+html.mobile-ui .state-panel {
+  min-height: 220px;
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: var(--radius);
+  background: var(--surface-low);
+  color: var(--text-2);
+  text-align: center;
+}
+html.mobile-ui .empty .big,
+html.mobile-ui .state-panel .state-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  color: var(--accent-2);
+  background: var(--accent-soft);
+  animation: none !important;
+}
+html.mobile-ui .state-title { color: var(--text); font-size: 16px; font-weight: 800; }
+html.mobile-ui .state-copy { max-width: 360px; color: var(--text-2); font-size: 13px; }
+
+/* Download center --------------------------------------------------------- */
+html.mobile-ui .download-center-list { display: grid; gap: 10px; }
+html.mobile-ui .download-empty { padding: 30px 12px; text-align: center; color: var(--text-3); }
+html.mobile-ui .download-job {
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: var(--surface-low);
+}
+html.mobile-ui .download-job-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  align-items: center;
+}
+html.mobile-ui .download-job-title {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+html.mobile-ui .download-job-pct { direction: ltr; color: var(--accent-2); font-size: 12px; font-weight: 800; }
+html.mobile-ui .download-job-meta {
+  min-height: 20px;
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  color: var(--text-3);
+  direction: ltr;
+  font-size: 10.5px;
+  text-align: left;
+}
+html.mobile-ui .download-job .progress { margin-top: 9px; }
+html.mobile-ui .download-job-actions { margin-top: 9px; display: flex; gap: 6px; }
+html.mobile-ui .download-job-actions .btn { flex: 1; }
+html.mobile-ui .download-job.is-error { border-color: color-mix(in srgb, var(--danger) 32%, transparent); }
+html.mobile-ui .download-job.is-complete { border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+
+/* Onboarding -------------------------------------------------------------- */
+html.mobile-ui .onb-backdrop { align-items: stretch; background: var(--app-bg); }
+html.mobile-ui .onb-card {
+  width: 100%;
+  max-width: 640px;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(44px + env(safe-area-inset-top, 0px)) 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0;
+  background: var(--app-bg) !important;
+  box-shadow: none !important;
+}
+html.mobile-ui .onb-card::before { display: none; }
+html.mobile-ui .onb-ico {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 24px;
+  border-radius: 25px;
+  color: var(--on-accent, #fff);
+  background: var(--accent);
+  box-shadow: 0 12px 28px var(--accent-glow) !important;
+}
+html.mobile-ui .onb-title { font-size: 25px; text-align: center; }
+html.mobile-ui .onb-body { max-width: 460px; margin: 8px auto 22px; text-align: center; font-size: 14px; }
+html.mobile-ui .onb-benefits { display: grid; gap: 10px; margin: 0 auto 20px; width: 100%; max-width: 460px; }
+html.mobile-ui .onb-benefit { padding: 12px; display: flex; align-items: center; gap: 10px; border-radius: 15px; background: var(--surface); color: var(--text-2); }
+html.mobile-ui .onb-benefit svg { color: var(--accent-2); }
+html.mobile-ui .onb-nav { margin-top: 16px; }
+html.mobile-ui .onb-nav .btn-primary { min-width: 144px; }
+html.mobile-ui .onb-skip { min-height: 48px; display: grid; place-items: center; color: var(--text-3); }
+
+/* Chat, files, galleries and editors ------------------------------------- */
+html.mobile-ui .dm { flex-direction: column; height: auto; min-height: 0; }
+html.mobile-ui .dm-list { width: 100%; max-height: 34dvh; }
+html.mobile-ui .dm-chat { width: 100%; min-height: 58dvh; }
+html.mobile-ui .gc-msg,
+html.mobile-ui .vc-msg,
+html.mobile-ui .dm-msg { max-width: 88%; }
+html.mobile-ui .gc-acts .btn-icon { opacity: .72; }
+html.mobile-ui .file-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; }
+html.mobile-ui .file-meta { grid-column: 2 / -1; flex-wrap: wrap; gap: 4px 10px; }
+html.mobile-ui .file-acts,
+html.mobile-ui .shot-acts { opacity: 1; }
+html.mobile-ui .CodeMirror { min-height: 54dvh; font-size: 13px; }
+html.mobile-ui .sm3d-stage { grid-template-columns: minmax(0, 1fr) !important; place-items: center; }
+html.mobile-ui .sm3d-canvas { width: 100% !important; max-width: 100% !important; height: auto !important; margin-inline: auto; }
+
+/* Mobile download capsule: compact system visibility at all times. */
+html.mobile-ui #tbInstall {
+  position: fixed;
+  right: 16px;
+  bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  left: 16px;
+  z-index: 85;
+  width: auto;
+  max-width: 520px;
+  min-height: 56px;
+  margin: 0 auto;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: var(--surface);
+  box-shadow: var(--shadow-2) !important;
+}
+html.mobile-ui #tbInstall .tbi-label { color: var(--text); font-size: 11.5px; }
+html.mobile-ui #tbInstall .tbi-cancel { width: 32px; height: 32px; border-radius: 10px; }
+
+/* Focus, motion and responsive adaptation -------------------------------- */
+html.mobile-ui :focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 68%, #fff);
+  outline-offset: 2px;
+}
+
+/* styles.css disables every transition in perf-mode. Re-enable only cheap,
+   bounded compositor interactions; no infinite decorative animation. */
+html.mobile-ui.perf-mode .btn,
+html.mobile-ui.perf-mode .nav-item,
+html.mobile-ui.perf-mode .bottom-nav-item,
+html.mobile-ui.perf-mode .sidebar,
+html.mobile-ui.perf-mode .progress > div,
+html.mobile-ui.perf-mode .tbi-bar > div,
+html.mobile-ui.perf-mode .toast {
+  transition-duration: 120ms !important;
+}
+
+@media (min-width: 700px) {
+  html.mobile-ui .page-area { padding-inline: max(24px, calc((100vw - 760px) / 2)); }
+  html.mobile-ui .page-content,
+  html.mobile-ui .page-skeleton { max-width: 760px; margin-inline: auto; }
+  html.mobile-ui .bottom-nav { right: 50%; left: auto; width: min(680px, calc(100% - 32px)); transform: translateX(50%); border: 1px solid var(--border); border-bottom: 0; border-radius: 24px 24px 0 0; }
+  html.mobile-ui .kind-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  html.mobile-ui .topbar { min-height: calc(54px + env(safe-area-inset-top, 0px)); padding-block: calc(3px + env(safe-area-inset-top, 0px)) 3px; }
+  html.mobile-ui .page-area { padding-top: 10px; }
+  html.mobile-ui .bottom-nav { min-height: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  html.mobile-ui .bottom-nav-item { min-height: 50px; }
+  html.mobile-ui .modal { max-height: 96dvh; }
+}
+
+@media (max-width: 370px) {
+  html.mobile-ui .page-area { padding-inline: 12px; }
+  html.mobile-ui .topbar { padding-inline: 10px; }
+  html.mobile-ui .page-title { font-size: 17px; }
+  html.mobile-ui .page-title .pt-ico { display: none; }
+  html.mobile-ui .bottom-nav-item { font-size: 9.5px; }
+  html.mobile-ui .kind-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  html.mobile-ui .modal { padding-inline: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.mobile-ui *,
+  html.mobile-ui *::before,
+  html.mobile-ui *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── صفحه‌ی تماسِ صوتی روی موبایل ─────────────────────────────────────────────
+   این صفحه برای دسکتاپِ دوستونه نوشته شده. روی گوشی هر دو ستون پشتِ سرِ هم می‌افتند و
+   ارتفاعش به ~۲۰۷۰px می‌رسد در برابرِ نمایشگرِ ~۶۴۰px، پس رسیدن به کنترلِ میکروفون یا
+   فهرستِ اعضا چند صفحه اسکرول می‌خواست. بخش‌های سنگین حالا جمع‌شدنی‌اند (details/summary،
+   بدونِ جاوااسکریپت و با دسترسی‌پذیریِ درست) و کنترلِ تماس اولِ صفحه می‌نشیند. */
+html.mobile-ui .vc-collapse {
+  padding: 0;
+  overflow: hidden;
+}
+html.mobile-ui .vc-collapse-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 14px;
+  min-height: 52px;                 /* هدفِ لمسیِ راحت */
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+}
+html.mobile-ui .vc-collapse-head::-webkit-details-marker { display: none; }
+html.mobile-ui .vc-collapse-title {
+  display: flex; align-items: center; gap: 8px; min-width: 0;
+}
+html.mobile-ui .vc-collapse-title > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html.mobile-ui .vc-collapse-chev { display: flex; transition: transform .18s var(--ease, ease); opacity: .7; }
+html.mobile-ui .vc-collapse[open] .vc-collapse-chev { transform: rotate(180deg); }
+html.mobile-ui .vc-collapse-body {
+  padding: 0 14px 14px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+/* عنوانِ داخلیِ کارت دیگر تکراری است — عنوان روی خودِ summary آمده. */
+html.mobile-ui .vc-collapse-body > .vc-section-head .section-title,
+html.mobile-ui .vc-collapse-body > .section-title { display: none; }
+
+/* «کنترل تماس» و زیرنویسش روی یک خط به دو لبه‌ی مخالف چسبیده بودند و از هم بریده به نظر
+   می‌رسیدند؛ روی موبایل زیرِ هم بهتر خوانده می‌شوند. */
+html.mobile-ui .vc-controls-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   هابِ اجتماعی روی موبایل
+   CSSِ پورت‌شده از دسکتاپ چند واریانتِ چیدمان دارد (داکِ شناور، ستونِ وسط با
+   max-width، گریدِ سه‌ستونیِ هدر). هیچ‌کدام روی صفحه‌ی گوشی درست نیست، پس این
+   بلوک بعد از styles.css می‌آید و لایه‌ی چیدمان را بازنویسی می‌کند.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.social-hub-mobile { display: flex; flex-direction: column; gap: 0; min-height: 100%; }
+
+.social-hub-mobile .social-hub-head {
+  position: static; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; min-height: 54px; padding: 8px 12px; direction: rtl;
+  border: 0; border-radius: 0; background: var(--panel);
+  border-bottom: 1px solid var(--glass-brd);
+}
+.social-hub-mobile .social-brand-copy small { display: none; }
+.social-hub-mobile .social-brand-copy strong { font-size: 13px; }
+.social-hub-mobile .social-brand-mark { width: 32px; height: 32px; flex: 0 0 32px; border-radius: 10px; }
+.social-hub-mobile .social-head-actions { display: flex; align-items: center; gap: 4px; direction: rtl; }
+
+/* تب‌ها: نوارِ افقیِ درون‌صفحه. position:static عمدی است — دسکتاپ این را
+   fixed/شناور می‌کند و روی MOBILE_NAV پایین می‌افتاد. */
+.social-hub-mobile .social-hub-nav {
+  position: static; inset: auto; transform: none; width: 100%; max-width: none;
+  display: flex; align-items: center; justify-content: flex-start;
+  gap: 4px; padding: 6px 10px; margin: 0; direction: rtl;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border: 0; border-bottom: 1px solid var(--glass-brd); border-radius: 0;
+  background: var(--panel); box-shadow: none;
+}
+.social-hub-mobile .social-hub-nav::-webkit-scrollbar { display: none; }
+.social-hub-mobile .social-hub-tab {
+  flex: 0 0 auto; width: auto; height: 36px; gap: 6px; padding: 0 13px;
+  border-radius: 10px; font-size: 12.5px; white-space: nowrap;
+}
+.social-hub-mobile .social-hub-tab > span { display: inline; }
+.social-hub-mobile .social-hub-tab.active { transform: none; }
+.social-hub-mobile .social-hub-tab.active::after { display: none; }
+
+/* padding پایین جای نوارِ ناوبریِ موبایل را باز می‌کند تا آخرین پست زیرش گم نشود. */
+.social-hub-mobile .social-hub-body {
+  flex: 1; min-height: 0; width: 100%; max-width: none; margin: 0;
+  padding: 10px 10px calc(84px + env(safe-area-inset-bottom, 0px));
+}
+.social-hub-mobile .social-feed-layout,
+.social-hub-mobile .social-feed-layout > .feed { max-width: none; width: 100%; margin: 0; }
+
+/* «پست تازه» — شناور درست بالای نوارِ پایین. در RTL، inset-inline-start یعنی
+   سمتِ راست: زیرِ شست می‌نشیند و چون بیرونِ جریانِ نوارِ تب‌هاست چیزی را نمی‌پوشاند. */
+.social-fab {
+  position: fixed; z-index: 40;
+  inset-inline-start: 16px;
+  bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  width: 52px; height: 52px; border: 0; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .32);
+}
+.social-fab:active { transform: scale(.94); }
+/* در گفتگوها کامپوزرِ خودِ چت هست؛ دکمه‌ی پستِ تازه آن‌جا فقط جلوی دست است. */
+.social-view-social ~ .social-fab, .social-hub-messenger .social-fab { display: none; }
+
+/* مینی‌پلیرِ رادیو در نوارِ بالا */
+#tbRadio { display: none; align-items: center; gap: 6px; max-width: 46vw; }
+.tbm-ico { display: inline-flex; color: var(--text-3); }
+.tbm-label {
+  font-size: 11.5px; color: var(--text-2); max-width: 26vw;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.tbm-btn {
+  width: 26px; height: 26px; border: 0; border-radius: 8px; background: var(--hover);
+  color: var(--text); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.tbm-btn.danger { color: var(--danger, #e5484d); }
+
+/* ── چتِ همگانیِ تازه روی موبایل ─────────────────────────────
+   پوسته‌ی دسکتاپ یک ستونِ ۲۱۰ پیکسلیِ کانال‌ها کنارِ گفتگو می‌گذارد؛ روی گوشی
+   آن ستون کلِ عرض را می‌خورد. این‌جا به یک نوارِ افقیِ اسکرول‌شونده تبدیلش می‌کنیم. */
+html.mobile-ui .gc-shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+html.mobile-ui .gc-sidebar {
+  flex-direction: row; align-items: center; gap: 6px;
+  overflow-x: auto; overflow-y: hidden; padding: 7px 8px;
+  scrollbar-width: none;
+}
+html.mobile-ui .gc-sidebar::-webkit-scrollbar { display: none; }
+html.mobile-ui .gc-side-head, html.mobile-ui .gc-side-empty { display: none; }
+html.mobile-ui .gc-group {
+  flex-direction: row; align-items: center; gap: 5px;
+  border-top: 0; border-inline-start: 1px solid var(--glass-brd); padding: 0 0 0 6px;
+}
+html.mobile-ui .gc-group-head { padding: 0; }
+html.mobile-ui .gc-channel, html.mobile-ui .gc-add-channel {
+  width: auto; flex: none; white-space: nowrap; border-radius: 999px; min-height: 30px;
+}
+html.mobile-ui .gc-join { margin: 0; width: auto; }
+/* کامپوزرِ تازه: ابزارها و شمارنده نباید کنارِ هم فشرده شوند. */
+html.mobile-ui .gc-composer { flex-direction: column; align-items: stretch; gap: 7px; }
+html.mobile-ui .gc-compose-row { display: flex; align-items: flex-end; gap: 8px; }
+html.mobile-ui .gc-compose-side { display: flex; align-items: center; gap: 6px; }
+html.mobile-ui .gc-composer-tools { display: flex; gap: 6px; overflow-x: auto; }
+html.mobile-ui .gc-topics-bar { padding: 6px 10px; }
+html.mobile-ui .gc-poll, html.mobile-ui .gc-file { width: min(300px, 72vw); }
+
+/* ── پوسته‌ی مسنجرِ دسکتاپ روی گوشی ─────────────────────────────
+   خودِ social-rebuild.css تک‌ستونی‌شدن را با @container انجام می‌دهد؛ WebViewِ
+   قدیمی‌تر از ۱۰۵ (روی مینیمم‌اِس‌دی‌کِی ۲۴ ممکن است) container query را نمی‌فهمد و
+   همان دو ستونِ ۳۰۰ پیکسلی را در عرضِ گوشی می‌چیند. این‌ها همان قواعد با @media
+   معمولی‌اند تا آن دستگاه‌ها هم تک‌ستونی بمانند. */
+@media (max-width: 700px) {
+  .nx-bar-brand { display: none; }
+  .nx-tab span { display: none; }
+  .nx-messenger { grid-template-columns: minmax(0, 1fr); }
+  .nx-inbox { border-inline-end: 0; }
+  .nx-conversation { display: none; }
+  .nx-messenger.has-open .nx-inbox { display: none; }
+  .nx-messenger.has-open .nx-conversation { display: block; }
+  .nx-chat-back { display: grid; }
+}
+
+/* ضربدرِ «حذفِ تبلیغات» داخلِ نوارِ پایینِ کارت می‌نشیند (کنارِ برچسبِ «تبلیغ»). */
+.ad-bar .ad-close { width: 28px; height: 28px; min-height: 28px; padding: 0; color: var(--text-3); }
+.ad-bar .ad-close:active { background: var(--hover-2); }
+
+/* ارتفاعِ بخشِ اجتماعی روی موبایل ─────────────────────────────────────────
+   پوسته‌ی مسنجر همه‌جا با height:100% ساخته شده. درصد فقط وقتی حل می‌شود که ارتفاعِ
+   والد «قطعی» باشد؛ در چیدمانِ موبایل page-content یک آیتمِ فلکس با ارتفاعِ auto است،
+   پس height:100%ِ .nx-app به ارتفاعِ محتوا برمی‌گشت — و چون گفتگوی باز position:absolute
+   است، با بازکردنِ هر گفتگو ارتفاع صفر می‌شد و صفحه خالی می‌ماند. این‌جا همان زنجیره با
+   فلکس ساخته می‌شود تا درصدی در کار نباشد.
+   ⚠ فقط زیرِ body.social-mode: این قواعد اگر سراسری باشند صفحه‌های معمولیِ اسکرول‌شونده
+   (مثلِ «اشتراک طلایی») را هم فلکس می‌کنند و کارت‌هایشان کشیده/بریده می‌شود. */
+html.mobile-ui body.social-mode .page-area > .page-shell { min-height: 100%; display: flex; flex-direction: column; }
+html.mobile-ui body.social-mode .page-shell > .page-content { flex: 1 1 auto; min-height: 0; }
+html.mobile-ui body.social-mode .page-content.nx-route { display: flex; flex-direction: column; }
+html.mobile-ui body.social-mode .page-content.nx-route > .nx-app { flex: 1 1 auto; min-height: 0; height: auto; }
+html.mobile-ui body.social-mode .nx-route .nx-stage { display: flex; flex-direction: column; }
+html.mobile-ui body.social-mode .nx-route .nx-messenger { flex: 1 1 auto; min-height: 0; height: auto; }
+
+/* صفحه‌ی اشتراک طلایی ─────────────────────────────────────────────────────
+   ردیف‌های «چه چیزی می‌گیری؟» با .list-item ساخته می‌شوند و قاعده‌ی لمسیِ بالا
+   (min-height:64px, padding:11px) از قاعده‌ی فشرده‌ی صفحه‌ی پرو در styles.css
+   خاص‌تر است (html.mobile-ui .list-item یک تایپ بیشتر دارد)، پس هر ویژگی یک
+   کارتِ ۶۴پیکسلیِ تقریباً خالی می‌شد. این‌جا همان فشردگیِ دسکتاپ برمی‌گردد.
+   برچسب‌ها روی گوشی به‌جای ellipsis می‌شکنند — دسکتاپ ستون پهن دارد، این‌جا نه،
+   و «پیامِ صوتیِ تا ۵ دقیقه و فایلِ تا ۵۰۰ مگابایت» نصفه می‌ماند. */
+html.mobile-ui .pro-perks-card .list-item { min-height: 0; padding: 7px 9px; }
+html.mobile-ui .pro-perks-card .pro-perk-label {
+  white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.5;
+}
+html.mobile-ui .pro-perks-card .pro-perk-item { align-items: start; }
+html.mobile-ui .pro-perks-card .grid-2 { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+
+/* جایگاه‌های ناشر روی گوشی ────────────────────────────────────────────────
+   اندازه‌های دسکتاپ (۳۱۰px کارت، ۲۸۰px فید) روی صفحه‌ی ۳۶۰ پیکسلی نصفِ نما را
+   می‌گیرند. قابِ میزبان خودش ارتفاعِ واقعی را با postMessage اعلام می‌کند و
+   setupPublisherAds همان را ست می‌کند؛ این‌ها فقط ارتفاعِ اولیه‌ی پیش از آن پیام‌اند. */
+/* place-items:centerِ کارت یعنی قاب کشیده نمی‌شود و height:100%ـش به ارتفاعِ محتوا
+   برمی‌گردد (روی گوشی ۲۴۸px داخلِ کارتِ ۳۹۱px) — یعنی آگهی بریده و بقیه‌ی کارت خالی.
+   stretch قاب را تا لبه‌های کارت باز می‌کند؛ نشانِ «تبلیغات» و دکمه‌ی بستن absolute اند
+   و از این تغییر اثر نمی‌گیرند. */
+html.mobile-ui .publisher-page-ad { margin-block: 12px; border-radius: 14px; place-items: stretch; }
+html.mobile-ui .publisher-page-ad-card { width: 100%; height: 250px; }
+html.mobile-ui .publisher-page-ad-feed { height: 230px; }
+html.mobile-ui .publisher-home-primary-ad { min-height: 250px; }
+/* هدف‌های لمسیِ موبایل (html.mobile-ui .btn / .btn-sm.btn-icon) این دکمه را ۴۴px و
+   position:relative می‌کنند و از `.publisher-page-ad-close`ِ تک‌کلاسه قوی‌ترند — نتیجه
+   یک دکمه‌ی درشتِ درونِ جریان وسطِ کارت، به‌جای ضربدرِ گوشه. سلکتورِ دوکلاسه‌ی زیر از
+   آن‌ها قوی‌تر است و دکمه را به گوشه برمی‌گرداند. */
+html.mobile-ui .publisher-page-ad .publisher-page-ad-close {
+  position: absolute; top: 8px; inset-inline-end: 8px;
+  width: 30px; min-width: 30px; height: 30px; min-height: 30px;
+}
+
+/* ردیفِ پیش‌نمایش دقیقاً ۲۷۴px است و روی صفحه‌ی ~۳۲۰px چند پیکسل بیرون می‌زد. قبلاً با
+   zoom کوچکش می‌کردم، ولی zoom روی یک زیردرختِ چندلایه یعنی رسترِ دوباره در هر فریمِ
+   اسکرول — روی گوشی گران‌ترین کاری بود که می‌شد کرد. حالا خودِ ستون باریک‌تر تعریف
+   می‌شود، پس چیدمان همان اول کوچک‌تر بسته می‌شود و چیزی در زمانِ اسکرول مقیاس نمی‌خورد. */
+html.mobile-ui .pro-nameplate-option > .pro-plate-zoom,
+html.mobile-ui .pro-live-voice { --vc-member-min: 246px; }
+
+/* فهرستِ افکت‌ها روی گوشی سنگین بود: ~۳۵ کارت که هرکدام لایه‌های فیلتر و سایه دارند،
+   و مرورگر همه‌شان را حتی وقتی بیرونِ دیدند رنگ می‌زند. content-visibility کارِ رندرِ
+   کارت‌های بیرونِ صفحه را حذف می‌کند و ظاهرِ چیزی را عوض نمی‌کند؛ contain-intrinsic-size
+   ارتفاعِ تقریبی می‌دهد تا نوارِ اسکرول نپرد. */
+html.mobile-ui .pro-nameplate-option,
+html.mobile-ui .pro-effect-option {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 104px;
+}
+
+/* ── استثنا برای افکت‌های بلند ─────────────────────────────────────────────
+   ‎content-visibility: auto‎ خودش ‎contain: paint‎ می‌آورد، و paint containment
+   هرچه از کادر بیرون بزند را می‌بُرد. روی گوشی هم هر ‎.card‎ آن را دارد هم هر
+   گزینه‌ی فهرست، پس سرِ کلاهِ پشمی و گوشِ گربه دقیقاً روی لبه‌ی کارت قیچی
+   می‌شد — همان چیزی که گزارش شد. فقط برای کادری که یک افکتِ بلند دارد خاموش
+   می‌شود؛ باقیِ فهرست همان صرفه‌جوییِ رندر را نگه می‌دارد. */
+html.mobile-ui :is(.card, .pro-nameplate-option, .pro-effect-option,
+                   .pro-live-preview):has(.pro-decor-tall) {
+  content-visibility: visible;
+  contain: none;
+  contain-intrinsic-size: none;
+}
+
+/* پلاک‌های غیرفعال در فهرست: فیلتر و سایه‌ی لایه‌هایشان روی گوشی گران‌ترین بخشِ رنگ‌زدن
+   است (۹۴ فیلترِ blur/drop-shadow و ۲۷ backdrop-filter در استایل). فقط همان گزینه‌ای که
+   انتخاب شده و کارتِ پیش‌نمایشِ بالای صفحه آن‌ها را نگه می‌دارند؛ بقیه بدونشان رندر
+   می‌شوند — تفاوتش در کادرِ ۲۷۴×۵۹ به‌سختی دیده می‌شود ولی هر فریم را ارزان می‌کند. */
+html.mobile-ui:not(.poster-capture) .pro-nameplate-option:not(.active) .pro-plate-zoom *,
+html.mobile-ui:not(.poster-capture) .pro-effect-option:not(.active) .pro-effect-thumb * {
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+/* کارتِ «اینطور دیده می‌شوی» عمداً همیشه انیمیشن دارد، ولی وقتی کاربر پایین رفته و
+   دیگر نمی‌بیندش هم با همان سرعت رنگ می‌خورد — اندازه‌گیری روی گوشی: ۱۴۸ فریم در ۶
+   ثانیه‌ی بی‌حرکت، همه‌شان jank. با content-visibility وقتی از دید خارج شود رندرش
+   می‌ایستد و به‌محضِ برگشتن به دید دوباره زنده می‌شود. */
+html.mobile-ui .pro-live-preview {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
+}
+
+/* ── پلاکِ غیرفعال: فقط پس‌زمینه و سوژه ──────────────────────────────────────
+   هر طرح یک پشته‌ی ۶ تا ۸ لایه‌ای است (مه، پرتو، هاله، گلبرگ، برگ، ستاره، نورِ
+   مسیر، وینیت) و مرورگر همه‌شان را در هر فریمِ اسکرول با هم ترکیب می‌کند — همان
+   چیزی که میانه‌ی فریم را روی ۶۵ms نگه داشته بود. در فهرستِ انتخاب، این لایه‌ها
+   ساکن‌اند (انیمیشن فقط روی گزینه‌ی فعال است)، پس چیزی جز هزینه نیستند.
+   گزینه‌ی فعال و کارتِ پیش‌نمایش کاملِ لایه‌ها را نگه می‌دارند. */
+html.mobile-ui:not(.poster-capture) .pro-nameplate-option:not(.active) :is(
+  .pro-kitty-forest-mist, .pro-kitty-forest-rays, .pro-kitty-forest-vignette,
+  .pro-hello-kitty-aura, .pro-hello-kitty-sparkle,
+  .pro-lowrider-aura, .pro-lowrider-city-lights, .pro-lowrider-city-vignette,
+  .pro-death-skeleton-aura,
+  .pro-rainy-forest-aura, .pro-rainy-forest-mist, .pro-rainy-forest-water-light,
+  .pro-flower-cinema-aura, .pro-flower-cinema-petal, .pro-flower-cinema-name-vignette,
+  .pro-naruto-meadow-aura, .pro-naruto-meadow-leaf-storm, .pro-naruto-meadow-flower-field,
+  .pro-naruto-meadow-path-light, .pro-naruto-meadow-name-vignette,
+  .pro-moonlit-star-canvas, .pro-moonlit-depth-light, .pro-moonlit-horizon-glow, .pro-moonlit-vignette,
+  .pro-lantern-meadow-vignette
+) { display: none !important; }
+
+/* پوسترِ پلاک: تصویرِ ثابتِ همان طرح، به‌جای رِگِ زنده. اندازه‌اش دقیقاً همان کادرِ
+   ردیفِ پیام است تا با چیزی که بعد از لمس ساخته می‌شود جابه‌جایی نداشته باشد. */
+/* لحظه‌ی تعویضِ پوستر با رِگِ زنده: پوستر روی رِگ می‌نشیند تا وقتی رِگ آماده شود.
+   بدونِ این، برداشتنِ پوستر قبل از آماده‌شدنِ رِگ یک کادرِ خالی و یک پرشِ ارتفاع
+   می‌ساخت. ‎.pro-plate-zoom‎ از قبل ‎position: relative‎ دارد. */
+html.mobile-ui .pro-plate-poster.is-swapping {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+html.mobile-ui .pro-plate-poster {
+  display: block;
+  width: 100%;
+  /* ۲۴۷×۵۹ = کادرِ واقعیِ پلاک در فهرست؛ پوستر روی DPR=2 دقیقاً ۴۹۴×۱۱۸ گرفته می‌شود.
+     نسبتِ قبلی (۴۹۴/۱۱۰) از یک برشِ کوتاه‌ترِ قدیمی مانده بود و تصویر را کمی له می‌کرد. */
+  aspect-ratio: 246 / 59;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* دکمه‌ی بزرگ‌نماییِ تصویرِ عضو در تماس — همان ۳۰px نسخه‌ی دسکتاپ.
+   قاعده‌ی عمومیِ `html.mobile-ui .btn` (کمینه‌ارتفاعِ ۴۸px برای هدفِ لمس) از قاعده‌ی
+   تک‌کلاسیِ styles.css خاص‌تر است و آن را می‌بلعید؛ نتیجه یک دکمه‌ی ۴۸پیکسلی بود که
+   روی قابِ کوچکِ ویدیو می‌نشست و بخشِ خوبی از تصویر را می‌پوشاند. */
+html.mobile-ui .vc-video-expand {
+  position: absolute; top: 6px; left: 6px; z-index: 3;
+  width: 30px; height: 30px; min-height: 30px; min-width: 30px; padding: 0;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .62);
+  border: 1px solid rgba(255, 255, 255, .25);
+  color: #fff;
+}
+
+/* ویدئوی از پیش رندرشده‌ی پلاک: دقیقاً جای همان رِگی که نشان می‌داد می‌نشیند.
+   ‎object-fit: fill‎ عمدی است — کلیپ روی همین گوشی و با همین ابعاد (۴۹۲×۱۱۸ = ۲۴۶×۵۹
+   در dpr=2) گرفته شده، پس هیچ برش یا کششی لازم نیست و ‎cover‎ فقط ریسکِ نیم‌پیکسل
+   اضافه می‌کرد. */
+html.mobile-ui .pro-plate-clip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* ── کارتِ «تماسِ صوتی» داخلِ چت ────────────────────────────────────────────
+   ‎.nx-call-card‎ یک ردیفِ فلکسِ تک‌خطی است: آیکن + متن + دکمه‌ی «پیوستن». روی دسکتاپ
+   حباب پهن است و جا می‌شود، ولی روی گوشی عرضِ داخلیِ حباب ۱۸۴px است و:
+     ۳۴ (آیکن) + ۱۲۳ (دکمه) + ۲۰ (گپ‌ها) = ۱۷۷  →  فقط ۷px برای متن می‌ماند.
+   ‎.nx-call-copy‎ هم ‎min-width: 0‎ دارد، پس واقعاً به همان ۷px جمع می‌شد و متن
+   حرف‌به‌حرف زیرِ هم می‌شکست — کارت ۴۴۰px قد می‌کشید و کلِ گفت‌وگو بهم‌ریخته می‌شد
+   (اندازه‌گیری: ‎.nx-call-copy‎ برابر ۷×۳۳۶ و ‎strong‎ برابر ۷×۱۷۲).
+   با wrap، اگر متن کمتر از ۹۶px جا داشته باشد دکمه به خطِ بعد می‌رود.
+   CSS خودِ کارت با دسکتاپ یکی است؛ این فقط قاعده‌ی باریکِ موبایل است. */
+html.mobile-ui .nx-call-card { flex-wrap: wrap; }
+
+html.mobile-ui .nx-call-copy { flex: 1 1 auto; min-width: 96px; }
+
+/* ── افکتِ دورِ آواتار در ردیف‌های چت ───────────────────────────────────────
+   این‌جا قبلاً ‎--pro-decor-ratio: 1.45 !important‎ بود تا دکوراسیون روی متنِ
+   ردیف نیفتد. ولی هر طرح نسبتِ خودش را دارد (از ابزارِ positioner، بین ~۱.۲ تا
+   ۲.۵) و ‎applyProApngFit‎ همان را inline می‌نویسد؛ آن ‎!important‎ همه را به یک
+   عددِ ثابت می‌برد، یعنی هیچ طرحی اندازه‌ی درستِ خودش را نداشت — نه فقط کوچک‌تر،
+   بلکه بدقاب.
+   حذف شد تا موبایل عیناً همان چیزی را نشان دهد که دسکتاپ می‌دهد: JSِ هر دو
+   بایت‌به‌بایت یکی است و CSS پایه هم یکی، پس با نبودِ این قاعده رفتار یکسان می‌شود.
+   دکوراسیون ‎position: absolute‎ است و ‎.pro-ring‎ هم ‎overflow: visible‎ دارد، پس
+   بیرون‌زدنش چیزی را جابه‌جا نمی‌کند — همان‌طور که روی دسکتاپ نمی‌کند. */
+
+/* ── فیلدِ پیام زیرِ نوارِ چهار‌بخشیِ پایین می‌رفت ───────────────────────────
+   ‎.page-area‎ روی موبایل ‎padding-bottom: calc(96px + safe-area)‎ دارد تا محتوا زیرِ
+   نوارِ پایین نرود، ولی ‎social-rebuild.css:99‎ با ‎.social-mode #pageArea { padding: 0 }‎
+   کلِ پدینگ را صفر می‌کند. روی دسکتاپ اشکالی ندارد چون نوارِ پایینی وجود ندارد؛ روی
+   گوشی یعنی کلِ ستونِ مسنجر تا ته صفحه کشیده می‌شود و کامپوزر می‌رود زیرِ نوار.
+   اندازه‌گیری: نوار ثابت در ۷۰۰ تا ۸۲۰، کامپوزر ۶۸۳ تا ۸۰۹ و خودِ ‎.nx-chat-input‎
+   ۶۹۰ تا ۸۰۲ — یعنی تقریباً تمامش پنهان بود.
+   همان عبارتِ خودِ نوار استفاده می‌شود تا اگر ارتفاعش عوض شد، این هم با آن جلو برود. */
+html.mobile-ui body.social-mode #pageArea {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ══ چتِ تلگرامی (فقط موبایل) ══════════════════════════════════════════════
+   چیدمانِ قبلی هر پیام را یک کارتِ تمام‌عرض با نام و تاریخِ تکراری بالای متن
+   می‌ساخت و دکمه‌های پاسخ/منو همیشه کنارش دیده می‌شدند. این بلوک همان مارک‌آپ را
+   به شکلِ تلگرام درمی‌آورد. دسکتاپ دست‌نخورده است. */
+
+/* حباب اندازه‌ی متن است، نه تمام‌عرض. ‎min-width: 110px‎ قبلی باعث می‌شد یک «سلام»
+   هم یک کادرِ پهن بگیرد. */
+html.mobile-ui .nx-chat-bubble-wrap {
+  min-width: 0;
+  max-width: 80%;
+}
+
+html.mobile-ui .nx-chat-bubble {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 9px 4px;
+  border-radius: 13px 13px 13px 5px;
+  line-height: 1.5;
+}
+
+html.mobile-ui .nx-chat-message.is-mine .nx-chat-bubble {
+  border-radius: 13px 13px 5px 13px;
+}
+
+/* نامِ فرستنده در چتِ دونفره تکرارِ بیهوده است — تلگرام هم نشانش نمی‌دهد.
+   در گروه‌ها ‎.nx-chat-thread-group‎ روی ظرف می‌نشیند و نام برمی‌گردد. */
+html.mobile-ui .nx-chat-message-meta { display: none; }
+
+html.mobile-ui .nx-group-thread .nx-chat-message:not(.is-mine) .nx-chat-message-meta {
+  display: flex;
+  margin-bottom: 1px;
+}
+
+html.mobile-ui .nx-group-thread .nx-chat-message-meta strong { font-size: 12px; }
+
+/* مُهرِ پایینِ حباب: ساعت و تیک‌ها کنارِ هم، ریز و کم‌رنگ، چسبیده به گوشه. */
+html.mobile-ui .nx-chat-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 1px;
+  margin-inline-start: 14px;
+  color: var(--nx-text-2);
+  font-size: 10px;
+  line-height: 1.4;
+  opacity: .75;
+}
+
+html.mobile-ui .nx-chat-stamp time { font-size: 10px; }
+html.mobile-ui .nx-chat-stamp .nx-chat-read { font-size: 10px; }
+
+html.mobile-ui .nx-chat-bubble p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+/* پیام‌های پشتِ سرِ هم از یک نفر گروه می‌شوند: فاصله‌ی کم و گوشه‌های صاف‌تر،
+   دقیقاً کاری که تلگرام با یک رشته پیام می‌کند. */
+/* ‎.is-run‎ را ‎markMessageRuns‎ در social-rebuild.js از روی ‎data-from‎ می‌گذارد:
+   یعنی «این پیام از همان فرستنده‌ی پیامِ قبلی است». قبلاً این‌ها با
+   ‎:not(.is-mine) + :not(.is-mine)‎ نوشته شده بودند که در چتِ همگانی پیامِ
+   آدم‌های مختلف را هم یک رشته حساب می‌کرد — همه‌چیز ۲px به‌هم می‌چسبید. */
+/* ۲۸px عددِ دلبخواه نیست: پیش از این، فاصله‌ی دیداری ۲px مارجین به‌علاوه‌ی ۲۶px
+   ارتفاعِ مرده‌ای بود که دکمه‌ی سه‌نقطه‌ی جامانده‌از‌جریان زیرِ هر حباب می‌ساخت. آن
+   دکمه که absolute شد، فاصله هم با خودش رفت. این‌جا همان ۲۸px را به‌عنوانِ فاصله‌ی
+   واقعی برمی‌گردانیم. */
+html.mobile-ui .nx-chat-message + .nx-chat-message { margin-top: 28px; }
+html.mobile-ui .nx-chat-message + .nx-chat-message.is-run { margin-top: 3px; }
+
+/* آواتار فقط کنارِ آخرین پیامِ هر رشته؛ بقیه فقط جای خالی نگه می‌دارند. شرط روی
+   ‎.is-run‎ است نه ‎:not(.is-mine)‎، وگرنه آواتارِ فرستنده‌های متفاوت هم پنهان می‌شد. */
+html.mobile-ui .nx-chat-message:not(.is-mine):has(+ .nx-chat-message.is-run) > .pro-ring {
+  visibility: hidden;
+}
+
+/* دکمه‌های پاسخ و منو روی گوشی همیشه دیده می‌شدند و کنارِ هر پیام شلوغی می‌ساختند.
+   تلگرام آن‌ها را با کشیدن/لمسِ طولانی می‌آورد؛ این‌جا با لمسِ طولانی منوی پیام باز
+   می‌شود، پس دکمه‌ها لازم نیستند. */
+html.mobile-ui .nx-message-reply-action,
+html.mobile-ui .nx-message-more-action {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.mobile-ui .nx-chat-message:focus-within .nx-message-reply-action,
+html.mobile-ui .nx-chat-message:focus-within .nx-message-more-action {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── نوارِ نوشتنِ پیام، یک‌خطی مثلِ تلگرام ──────────────────────────────────
+   ‎mobile.css:667‎ برای همه‌ی textareaها ‎min-height: 112px‎ می‌گذارد (برای فرم‌های
+   بلندِ اپ منطقی است) ولی کامپوزرِ چت هم همان را می‌گرفت: یک نوارِ ۱۲۶ پیکسلی که
+   بیشترش خالی بود و ارتفاعِ گفتگو را می‌خورد. تلگرام یک ردیفِ جمع‌وجور دارد که با
+   تایپ تا چند خط بالا می‌آید. */
+html.mobile-ui .nx-chat-input {
+  min-height: 40px;
+  max-height: 116px;
+  padding: 9px 12px;
+  resize: none;
+  line-height: 21px;
+}
+
+html.mobile-ui .nx-chat-composer {
+  padding: 5px 6px;
+  gap: 5px;
+  align-items: end;
+}
+
+html.mobile-ui .nx-chat-lead,
+html.mobile-ui .nx-chat-actions,
+html.mobile-ui .nx-chat-send { align-self: end; }
+
+/* ── گفتگوی باز تمام‌صفحه می‌شود (مثلِ تلگرام) ─────────────────────────────
+   بالای چت سه نوار روی هم بود: نوارِ اپ (۹۹px) + بنرِ اشتراک طلایی (۶۴px) +
+   نوارِ تب‌های اجتماعی (۵۲px) = ۲۱۵px، و بعد سربرگِ خودِ گفتگو. از ۸۲۰ پیکسلِ صفحه
+   فقط ۳۳۷ برای پیام‌ها می‌ماند. تلگرام وقتی گفتگو باز است فقط سربرگِ خودش را
+   نگه می‌دارد.
+   بنر و نوارِ تب‌ها فقط تا وقتی گفتگو باز است پنهان می‌شوند؛ با دکمه‌ی برگشتِ
+   سربرگ (‎.nx-chat-back‎) دوباره برمی‌گردند. نوارِ اپ عمداً دست‌نخورده می‌ماند تا
+   راهِ خروج همیشه در دسترس باشد. */
+html.mobile-ui body.social-mode:has(.nx-messenger.has-open) .gold-banner,
+html.mobile-ui body.social-mode:has(.nx-messenger.has-open) .nx-bar {
+  display: none;
+}
+
+/* ── پیامِ صوتی ─────────────────────────────────────────────────────────────
+   ‎.nx-chat-voice‎ یک ردیفِ فلکس است: آیکنِ میکروفون + ‎<audio controls>‎ + مدتِ صدا.
+   پخش‌کننده‌ی بومیِ مرورگر عرضِ کمینه‌ی خودش را دارد و کوتاه نمی‌آید، پس در حبابِ
+   باریکِ موبایل برچسبِ مدت له می‌شد و «0:01» عمودی حرف‌به‌حرف می‌شکست
+   (اندازه‌گیری: ‎<small>‎ برابر ۱۳×۵۶).
+   حالا پخش‌کننده یک سطرِ کامل برای خودش می‌گیرد و آیکن و مدت در سطرِ خودشان. */
+html.mobile-ui .nx-chat-voice {
+  flex-wrap: wrap;
+  row-gap: 4px;
+  align-items: center;
+  /* ⚠ عرضِ قطعی لازم است. حبابْ ‎width: fit-content‎ است، پس ‎flex: 1 1 100%‎ روی
+     پخش‌کننده چیزی برای حل‌شدن نداشت و حباب تا ۶۳px جمع می‌شد و پخش‌کننده بریده
+     می‌شد. با عرضِ مشخص، خودِ حباب به همین اندازه باز می‌شود. */
+  width: 216px;
+  max-width: 100%;
+}
+
+html.mobile-ui .nx-chat-voice audio {
+  flex: 1 1 100%;
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+}
+
+html.mobile-ui .nx-chat-voice > small {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* ── ورودی‌های توکارِ بخش اجتماعی از قاعده‌ی لمسیِ عمومی مستثنا ────────────────
+   قاعده‌ی ‎html.mobile-ui input { min-height: 52px; padding: 12px 14px }‎ برای فرم‌های
+   خودِ لانچر است (هدفِ لمسِ بزرگ). ولی مسنجر ورودی‌هایش را «بی‌قاب» می‌سازد و داخلِ
+   یک قابِ گردِ خودش می‌گذارد، و آن قاب ۳۸px است. نتیجه: ورودیِ ۵۲ پیکسلی داخلِ قابِ
+   ۳۸ پیکسلی — از کادرِ خودش می‌زد بیرون و بی‌قواره بزرگ به‌نظر می‌رسید:
+     «کادر جست‌وجوی بازیکن ریده بزرگه»
+   اندازه‌گیری: ورودی ۲۸۸×۵۲ داخلِ قابِ ۳۳۴×۳۸.
+   خودِ قاب کمی بلندتر می‌شود تا هدفِ لمس قابل‌قبول بماند، و ورودی داخلش پُر می‌کند. */
+html.mobile-ui .nx-inbox-searchbox,
+html.mobile-ui .nx-bar-search {
+  min-height: 42px;
+}
+
+/* ⚠ ‎!important‎ لازم است. قاعده‌ی عمومی چهار ‎:not([type=…])‎ دارد و هر کدام یک
+   انتخابگرِ صفتی است، پس ویژگی‌اش ‎(0,5,1)‎ می‌شود و از ‎html.mobile-ui .nx-inbox-search‎
+   با ‎(0,2,1)‎ بالاتر است — بدونِ important بی‌اثر بود (اندازه‌گیری: ورودی همچنان ۵۲px). */
+html.mobile-ui .nx-inbox-search,
+html.mobile-ui .nx-search-input {
+  min-height: 0 !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  font-size: 13px !important;
+}
+
+/* ── پنجره‌ی اعلان‌ها روی گوشی ──────────────────────────────────────────────
+   ‎max-height‎ محاسبه‌شده ۵۹۱px بود — روی صفحه‌ی ۸۲۰ پیکسلی یعنی ۷۲٪ ارتفاع، پس با
+   چند اعلان عملاً کلِ صفحه را می‌گرفت: «اعلان‌ها نصف صفحه رو میگیره».
+   ضمناً خودِ قاب سنگین است: سربرگ ۶۵px و نوارِ تب‌ها ۴۵px، یعنی ۱۱۰ پیکسل «قاب»
+   برای پنلی که کلاً ۲۰۶px بود و فقط یک اعلان داشت.
+   این‌جا هم سقف پایین می‌آید و هم قاب جمع‌وجور می‌شود؛ خودِ فهرست از قبل اسکرول دارد. */
+/* عرضِ کامل، لبه‌به‌لبه. پایه‌ی قاعده ‎width: min(390px, 100vw - 28px)‎ است و
+   ‎placePopover‎ در social-rebuild.js هم ‎left‎ را inline می‌نویسد، پس هر دو با
+   ‎!important‎ بازنویسی می‌شوند. حاشیه و گوشه‌های کناری هم برداشته می‌شوند تا
+   واقعاً به دو لبه‌ی صفحه بچسبد. */
+html.mobile-ui .nx-notifications-popover {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  border-inline: 0 !important;
+  border-end-start-radius: 0 !important;
+  border-end-end-radius: 0 !important;
+  /* ۴۲vh عمدی: با سقفِ ۵۲vh پنل هنوز می‌توانست تا نیمه‌ی صفحه بالا بیاید، که همان
+     چیزی بود که کاربر از آن شکایت داشت. با این عدد حتی با فهرستِ پر هم زیرِ نصف
+     می‌ماند و بقیه‌اش داخلِ خودِ فهرست اسکرول می‌شود. */
+  max-height: min(42vh, 360px) !important;
+}
+
+html.mobile-ui .nx-notifications-head {
+  min-height: 0;
+  padding: 7px 11px;
+}
+
+html.mobile-ui .nx-notifications-tabs {
+  padding: 4px;
+  gap: 2px;
+}
+
+html.mobile-ui .nx-notifications-tab {
+  min-height: 28px;
+  padding: 2px;
+}
+
+/* ── افکتِ پشتِ کادر در فهرستِ گروه‌های عمومی ────────────────────────────────
+   ردیفِ گروه‌های عمومی به‌جای ‎.nx-row-copy‎ از ‎.nx-gm-row-copy‎ استفاده می‌کند، پس دو
+   قاعده‌ی موجود در styles.css به آن نمی‌خورد: بالاآمدنِ محتوا روی پلاک، و روشن‌کردنِ
+   متن روی طرحِ روشن. همان‌ها این‌جا برای همین کلاس تکرار می‌شوند. */
+:is(.nx-pubgroups-row) > .nx-gm-row-copy,
+:is(.nx-pubgroups-row) > .nx-avatar,
+:is(.nx-pubgroups-row) > .nx-pubgroups-act { position: relative; z-index: 1; }
+
+.nx-pubgroups-row:has(> .nx-row-plate) .nx-gm-row-copy strong,
+.nx-pubgroups-row:has(> .nx-row-plate) .nx-gm-row-copy small {
+  color: #f4fbff;
+  text-shadow: 0 1px 2px #020611, 0 0 8px #00000080;
+}
+
+/* دکمهٔ ردیف روی پلاک باید خوانا بماند.
+   حالتِ «بازکردن» (‎.is-in‎) پس‌زمینهٔ نیمه‌شفافِ ‎--nx-brand-soft‎ دارد که روی تصویرِ
+   روشنِ طرح گم می‌شود. سایه هم چاره نیست چون perf-mode روی گوشی همهٔ box-shadow‌ها
+   را می‌کشد — پس پس‌زمینهٔ مات می‌شود. */
+.nx-pubgroups-row:has(> .nx-row-plate) .nx-pubgroups-act.is-in {
+  color: #f4fbff;
+  background: rgba(6, 12, 20, .66);
+}
+
+/* ── فهرستِ گروه‌های عمومی: همان درمانِ فهرستِ افکت‌ها ──────────────────────────
+   این فهرست صدها ردیف دارد و هر ردیف می‌تواند یک پلاکِ متحرکِ کامل داشته باشد، پس
+   مرورگر همه‌شان را حتی وقتی بیرونِ دیدند رنگ می‌زد.
+   اندازه‌گیری روی گوشی، اسکرولِ فهرستِ ۳۷۲ ردیفی: ۳۴fps، بدترین فریم ۹۲۶ms،
+   ۵ فریم بالای ۱۰۰ms.
+   ‎content-visibility: auto‎ کارِ رندرِ ردیف‌های بیرونِ صفحه را حذف می‌کند و ظاهرِ چیزی
+   را عوض نمی‌کند؛ ‎contain-intrinsic-size‎ ارتفاعِ تقریبی می‌دهد تا نوارِ اسکرول نپرد.
+   عددِ ۵۸px از خودِ ردیف‌ها گرفته شده (بدونِ پلاک ~۵۷، با پلاک تا ۷۶).
+   فقط موبایل — دسکتاپ این فهرست را در پنجره‌ی بزرگ و بدونِ این فشار نشان می‌دهد. */
+html.mobile-ui .nx-pubgroups-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 58px;
+}
+
+/* قاعده‌ی «پوسترِ پلاک در ردیف» حذف شد: دیگر پوستری ساخته نمی‌شود و ردیف‌ها
+   همان نیم‌پلیتِ زنده‌ی دسکتاپ را دارند (ر.ک. rowPlate در social-rebuild.js). */
+
+/* ── نوارِ پایین نباید با باز/بسته‌شدنِ کیبورد بپرد ──────────────────────────
+   ‎--safe-b‎ را app.js یک‌بار در آغاز از ‎env(safe-area-inset-bottom)‎ می‌خواند و ثابت
+   نگه می‌دارد. خودِ ‎env()‎ روی اندروید وقتی کیبورد باز است ۰ برمی‌گردد و ارتفاعِ نوار
+   را ۱۲۰ → ۷۲ می‌کرد (پرشِ ۴۸ پیکسلی). fallback همان ‎env()‎ است تا اگر متغیر ست
+   نشد رفتار قبلی بماند. */
+html.mobile-ui .bottom-nav {
+  min-height: calc(72px + var(--safe-b, env(safe-area-inset-bottom, 0px)));
+  padding-bottom: var(--safe-b, env(safe-area-inset-bottom, 0px));
+}
+
+/* محتوا هم با همان مقدارِ ثابت فاصله می‌گیرد، وگرنه با هر تایپ بالا و پایین می‌شد. */
+html.mobile-ui .page-area {
+  padding-bottom: calc(96px + var(--safe-b, env(safe-area-inset-bottom, 0px)));
+}
+
+html.mobile-ui body.social-mode #pageArea {
+  padding-bottom: calc(72px + var(--safe-b, env(safe-area-inset-bottom, 0px)));
+}
+
+/* ── پنلِ داخلِ تماسِ صوتی روی گوشی ────────────────────────────────────────
+   styles.css یک زنجیره @media دارد (‎1180px‎ تا ‎760px‎) که برایِ باریک‌شدنِ
+   پنجره‌ی دسکتاپ نوشته شده. هدفِ آن‌ها جا‌دادنِ کلِ پنل بدونِ اسکرول است، پس
+   به‌جای ستون‌شکنی، ستون‌ها را کنارِ هم نگه می‌دارند و همه‌چیز را ریز می‌کنند —
+   و چون بعد از مدیاکوئری‌های ریسپانسیوِ بالاتر می‌آیند، آن‌ها را می‌کوبند.
+   روی نمای ۳۶۰ پیکسلی نتیجه این بود (اندازه‌گیریِ زنده):
+     ‎.vc-call-layout‎      → سه ستونِ ۱۰۹ / ۹۹ / ۸۹ پیکسلی
+     ‎.vc-primary-controls‎ → پنج ستونِ ۸.۶ پیکسلی
+     دکمه‌ها ۳۶×۸۹ با متنِ بیرون‌زده از کادر
+   گوشی برخلافِ آن پنجره اسکرولِ عمودی دارد، پس این‌جا برعکس عمل می‌کنیم:
+   یک ستون، و هدف‌های لمسیِ اندازه‌درست. */
+html.mobile-ui .vc-call-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+/* گریدِ ارتفاع‌ثابت بود و آیتم‌هایش کشیده می‌شدند: بخشِ «چت روم» حتی وقتی بسته
+   بود ۳۰۰px و «ساندبرد» ۱۴۰px ارتفاع می‌گرفت، چون ردیفِ گرید آن‌ها را تا کفِ
+   ظرفِ ۴۵۰ پیکسلی می‌کشید. روی گوشی ستونِ ساده‌ی هم‌اندازه‌ی محتوا درست است. */
+html.mobile-ui .vc-call-side,
+html.mobile-ui .vc-call-control-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* ⚠ align-items روی ستونِ فلکس محورِ عرض است نه ارتفاع — گذاشتنِ start روی
+   .vc-call-main/.vc-call-side کارت‌ها را باریک و پله‌ای می‌کرد. کشیدگیِ عرض
+   (پیش‌فرض) می‌ماند و جلوگیری از کشیدگیِ ارتفاع با flex:0 0 auto پایین انجام
+   می‌شود. روی .vc-call-layout که گرید است، align-items واقعاً محورِ ارتفاع است. */
+html.mobile-ui .vc-call-layout { align-items: start; }
+html.mobile-ui .vc-call-layout,
+html.mobile-ui .vc-call-main,
+html.mobile-ui .vc-call-side {
+  height: auto;
+  min-height: 0;
+}
+html.mobile-ui .vc-call-side > *,
+html.mobile-ui .vc-call-main > * { flex: 0 0 auto; }
+/* دو ستون یعنی هر دکمه ~۱۵۰px عرض دارد و برچسبش کامل جا می‌شود؛ کلیدِ
+   «صحبت با فشار» تمامِ عرض را می‌گیرد چون مهم‌ترین کنترلِ تماس است. */
+html.mobile-ui .vc-primary-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+html.mobile-ui .vc-ptt-toggle { grid-column: 1 / -1; }
+/* سه کنترل در دو ستون یعنی سومی تنها می‌ماند و کنارش یک خانه‌ی خالی — نامتوازن.
+   وقتی آخرین دکمه در جایگاهِ فرد است (یعنی تنهاست) تمامِ عرض را می‌گیرد. اگر
+   روزی کنترلِ چهارمی اضافه شود، شرط دیگر برقرار نیست و خودش خاموش می‌شود. */
+html.mobile-ui .vc-call-control:nth-of-type(odd):last-of-type { grid-column: 1 / -1; }
+html.mobile-ui .vc-call-control,
+html.mobile-ui .vc-ptt-toggle {
+  min-height: 44px;
+  padding-inline: 10px;
+}
+html.mobile-ui .vc-members { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html.mobile-ui .vc-admin-bulk { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html.mobile-ui .vc-admin-bulk .btn { min-height: 40px; padding-inline: 8px; }
+html.mobile-ui .vc-admin-setting { min-height: 44px; }
+html.mobile-ui .vc-admin-setting .btn { width: 36px; min-height: 36px; height: 36px; }
+/* عنوانِ روم و دکمه‌ی خروج: بلوکِ ۷۶۰px عنوان را ۱۲px می‌کند و برچسبِ خروج را
+   کلاً برمی‌دارد (روی نوارِ باریکِ دسکتاپ منطقی است). روی گوشی دکمه تمامِ عرض
+   را دارد، پس متن هم جا می‌شود و «آن دکمه‌ی قرمزِ بی‌نام» معنا پیدا می‌کند. */
+html.mobile-ui .vc-room-title { font-size: 15px; }
+html.mobile-ui .vc-leave-call { min-height: 46px; }
+html.mobile-ui .vc-leave-call span { display: inline; }
+/* بخش‌های بسته (‎<details>‎ بدونِ open) بدنه‌شان همچنان رندر می‌شد و ۳۰۰px («چت روم»)
+   و ۱۴۰px («ساندبرد») فضای خالی می‌گرفت — چون ‎display‎ی که styles.css صریح روی
+   ‎.vc-chat‎/‎.vc-soundboard‎ می‌گذارد، مخفی‌سازیِ پیش‌فرضِ مرورگر برای details بسته
+   را خنثی می‌کند. «مدیریت روم» هم بدنه‌اش ۷۹۶px بود و فقط ‎overflow:hidden‎ پنهانش
+   می‌کرد. این یعنی صفحه بی‌دلیل چند نما اسکرول داشت. */
+html.mobile-ui .vc-collapse:not([open]) > .vc-collapse-body { display: none; }

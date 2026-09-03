@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; overflow: hidden;
+    font-family: "Vazirmatn", Tahoma, "Segoe UI", sans-serif; user-select: none; }
+  .card {
+    margin: 8px; padding: 13px 15px; border-radius: 14px; color: #fff;
+    background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
+    box-shadow: 0 10px 34px rgba(0,0,0,.5);
+    animation: slidein .28s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes slidein { from { transform: translateY(26px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .hd { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14.5px; margin-bottom: 6px; }
+  .em { font-size: 18px; line-height: 1; }
+  .brand { margin-inline-start: auto; font-size: 11px; opacity: .8; font-weight: 600; }
+  .ttl { font-weight: 700; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bd { font-size: 12.5px; opacity: .96; line-height: 1.55;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="hd"><span class="em" id="em">📢</span><span id="hdText">اعلان</span><span class="brand">میهن‌کرفت</span></div>
+    <div class="ttl" id="ttl"></div>
+    <div class="bd" id="bd"></div>
+  </div>
+  <script>
+    var n = (window.__POP__ || window.__NEWS__ || {});
+    // ظاهرِ هر نوعِ اعلان: ایموجی + متنِ سرصفحه + گرادیانِ رنگ
+    var KINDS = {
+      news: { em: "📢", hd: "خبرِ جدید", g: "linear-gradient(135deg,#2196f3 0%,#1565c0 100%)" },
+      dm:   { em: "💬", hd: "پیامِ جدید", g: "linear-gradient(135deg,#2196f3 0%,#1565c0 100%)" },
+      call: { em: "📞", hd: "تماسِ صوتی", g: "linear-gradient(135deg,#22c55e 0%,#15803d 100%)" },
+      friend: { em: "👋", hd: "درخواستِ دوستی", g: "linear-gradient(135deg,#f59e0b 0%,#b45309 100%)" }
+    };
+    var meta = KINDS[n.kind] || KINDS.news;
+    document.getElementById("em").textContent = meta.em;
+    document.getElementById("hdText").textContent = meta.hd;
+    document.getElementById("card").style.background = meta.g;
+    document.getElementById("ttl").textContent = n.t || meta.hd;
+    document.getElementById("bd").textContent = n.b || "";
+    // صدای دینگ (بدونِ فایل — با Web Audio ساخته می‌شود): دو نتِ کوتاهِ دلنشین مثلِ تلگرام.
+    if (n.ding) {
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        function beep(freq, start, dur) {
+          var o = ctx.createOscillator(), g = ctx.createGain();
+          o.type = "sine"; o.frequency.value = freq;
+          o.connect(g); g.connect(ctx.destination);
+          var t0 = ctx.currentTime + start;
+          g.gain.setValueAtTime(0.0001, t0);
+          g.gain.exponentialRampToValueAtTime(0.28, t0 + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+          o.start(t0); o.stop(t0 + dur + 0.02);
+        }
+        beep(880, 0, 0.13);     // نتِ اول
+        beep(1245, 0.11, 0.18); // نتِ دوم (بالاتر)
+      } catch (e) {}
+    }
+  </script>
+</body>
+</html>

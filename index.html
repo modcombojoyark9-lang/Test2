@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <meta name="color-scheme" content="light dark" />
+  <title>میهن کرفت</title>
+  <script src="tauri-shim.js?v=3"></script>
+  <!-- mihan-download.js MUST load before the polyfill: it owns the native HTTP/download
+       bridge (window.__mihanHttp / __mihanDownloadProgress) and the whole Iran-CDN
+       staging engine that the polyfill's install_* commands delegate to. -->
+  <script src="mihan-download.js?v=2"></script>
+  <script src="mihan-polyfill.js?v=25"></script>
+  <script src="avatars-embed.js?v=1"></script>
+  <link rel="stylesheet" href="vendor/cm/codemirror.min.css" />
+  <link rel="stylesheet" href="vendor/cm/theme-material-darker.css" />
+  <link rel="stylesheet" href="vendor/cm/addon/dialog.css" />
+  <link rel="stylesheet" href="styles.css?v=120" />
+  <!-- پوسته‌ی مسنجرِ دسکتاپ؛ قبل از mobile.css می‌آید تا تنظیم‌های موبایل رویش بنشیند. -->
+  <link rel="stylesheet" href="social-rebuild.css?v=1" />
+  <link rel="stylesheet" href="mobile.css?v=41" />
+  <script>
+    // Early perf-mode: detect Android BEFORE first paint to prevent
+    // the initial render from being a 5-FPS slideshow.
+    (function(){
+      var ua = (navigator.userAgent||"").toLowerCase();
+      var touch = (navigator.maxTouchPoints||0) > 0 && window.matchMedia("(pointer:coarse)").matches;
+      if (touch || /android|iphone|ipad|ipod|mobile/.test(ua)) {
+        document.documentElement.classList.add("perf-mode");
+        document.documentElement.classList.add("mobile-ui");
+        window.__perfMode = true;
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- custom title bar -->
+  <header class="titlebar" data-tauri-drag-region role="banner" aria-label="نوار برنامه">
+    <div class="tb-left" data-tauri-drag-region>
+      <button class="tb-btn tb-menu-btn" id="navToggle" type="button" title="باز کردن منو" aria-label="باز کردن منوی کامل" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+      </button>
+      <div class="tb-logo">
+        <svg viewBox="342 309 644 642" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M0,0 L5,5 L16,22 L28,41 L42,63 L47,71 L46,75 L35,93 L20,116 L5,139 L-11,164 L-28,190 L-44,215 L-59,238 L-70,255 L-83,275 L-97,297 L-108,314 L-122,336 L-132,352 L-130,354 L-29,339 L46,328 L52,328 L53,330 L43,346 L28,369 L12,393 L-38,401 L-108,412 L-196,427 L-250,436 L-280,441 L-280,438 L-269,420 L-258,403 L-246,384 L-232,362 L-218,340 L-207,323 L-196,306 L-182,284 L-169,264 L-153,239 L-137,214 L-121,189 L-110,172 L-94,147 L-78,122 L-67,105 L-56,88 L-42,66 L-30,47 L-16,25 L-4,6 Z" transform="translate(632,319)"/><path d="M0,0 L5,5 L18,27 L31,48 L48,76 L61,97 L70,112 L79,127 L96,155 L115,187 L126,205 L145,237 L162,265 L172,282 L189,310 L202,332 L216,355 L233,383 L248,408 L257,423 L256,426 L69,452 L46,455 L41,455 L41,452 L55,428 L72,400 L78,391 L145,383 L146,380 L132,357 L116,331 L103,310 L87,284 L70,256 L55,232 L43,212 L29,189 L16,168 L-1,140 L-14,119 L-30,93 L-44,70 L-43,66 L-31,47 L-15,22 L-1,1 Z" transform="translate(719,442)"/><path d="M0,0 L5,0 L19,22 L34,47 L33,50 L3,54 L-141,72 L-181,77 L-195,95 L-204,107 L-217,124 L-222,131 L-221,133 L-207,132 L-50,112 L-25,109 L-17,109 L-16,112 L-31,138 L-44,160 L-50,169 L-60,171 L-226,192 L-325,205 L-362,210 L-369,210 L-370,208 L-361,196 L-345,175 L-336,163 L-320,142 L-306,123 L-290,102 L-275,82 L-261,64 L-249,48 L-239,35 L-235,30 L-154,19 L-34,4 Z" transform="translate(765,731)"/></svg>
+      </div>
+      <span class="tb-title">میهن کرفت</span>
+    </div>
+    <div class="tb-install" id="tbInstall" style="display:none" data-tauri-drag-region>
+      <div class="tbi-top">
+        <span class="tbi-label" id="tbInstallLabel"></span>
+        <span class="tbi-pct" id="tbInstallPct"></span>
+        <button class="tbi-cancel" id="tbInstallCancel" title="لغو">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="tbi-bar"><div id="tbInstallBar"></div></div>
+    </div>
+    <!-- مینی‌پلیرِ رادیو — updateRadioMini() پُرش می‌کند و تا وقتی ایستگاهی پخش نشود پنهان است. -->
+    <div id="tbRadio" data-tauri-drag-region></div>
+    <div class="tb-controls">
+      <button class="tb-btn" id="winTheme" title="حالت تیره"></button>
+      <button class="tb-btn" id="winMin" title="کوچک">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+      </button>
+      <button class="tb-btn" id="winMax" title="بزرگ">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      </button>
+      <button class="tb-btn tb-close" id="winClose" title="بستن">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- sidebar -->
+    <aside class="sidebar glass" id="sidebar" aria-label="منوی کامل">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="342 309 644 642" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M0,0 L5,5 L16,22 L28,41 L42,63 L47,71 L46,75 L35,93 L20,116 L5,139 L-11,164 L-28,190 L-44,215 L-59,238 L-70,255 L-83,275 L-97,297 L-108,314 L-122,336 L-132,352 L-130,354 L-29,339 L46,328 L52,328 L53,330 L43,346 L28,369 L12,393 L-38,401 L-108,412 L-196,427 L-250,436 L-280,441 L-280,438 L-269,420 L-258,403 L-246,384 L-232,362 L-218,340 L-207,323 L-196,306 L-182,284 L-169,264 L-153,239 L-137,214 L-121,189 L-110,172 L-94,147 L-78,122 L-67,105 L-56,88 L-42,66 L-30,47 L-16,25 L-4,6 Z" transform="translate(632,319)"/><path d="M0,0 L5,5 L18,27 L31,48 L48,76 L61,97 L70,112 L79,127 L96,155 L115,187 L126,205 L145,237 L162,265 L172,282 L189,310 L202,332 L216,355 L233,383 L248,408 L257,423 L256,426 L69,452 L46,455 L41,455 L41,452 L55,428 L72,400 L78,391 L145,383 L146,380 L132,357 L116,331 L103,310 L87,284 L70,256 L55,232 L43,212 L29,189 L16,168 L-1,140 L-14,119 L-30,93 L-44,70 L-43,66 L-31,47 L-15,22 L-1,1 Z" transform="translate(719,442)"/><path d="M0,0 L5,0 L19,22 L34,47 L33,50 L3,54 L-141,72 L-181,77 L-195,95 L-204,107 L-217,124 L-222,131 L-221,133 L-207,132 L-50,112 L-25,109 L-17,109 L-16,112 L-31,138 L-44,160 L-50,169 L-60,171 L-226,192 L-325,205 L-362,210 L-369,210 L-370,208 L-361,196 L-345,175 L-336,163 L-320,142 L-306,123 L-290,102 L-275,82 L-261,64 L-249,48 L-239,35 L-235,30 L-154,19 L-34,4 Z" transform="translate(765,731)"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">میهن کرفت</div>
+          <div class="brand-sub">MihanCraft</div>
+        </div>
+        <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="بستن منو">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="nav-label">منوی اصلی</div>
+      <nav id="nav" aria-label="همه بخش‌ها"></nav>
+    </aside>
+
+    <!-- main -->
+    <main class="main">
+      <div class="topbar" role="banner">
+        <div class="mobile-top-leading">
+          <button class="mobile-icon-btn" id="mobileNavToggle" type="button" aria-label="باز کردن منوی کامل" aria-expanded="false" aria-controls="sidebar">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+          </button>
+          <h1 class="page-title" id="pageTitle">خانه</h1>
+        </div>
+        <div class="mobile-top-actions">
+          <button class="mobile-icon-btn download-center-trigger" id="mobileDownloadBtn" type="button" aria-label="دانلودها" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            <span class="mobile-download-badge" id="mobileDownloadBadge" hidden>0</span>
+          </button>
+          <button class="mobile-account-btn" id="mobileAccountBtn" type="button" aria-label="حساب کاربری">
+            <span id="mobileAccountAvatar">؟</span>
+          </button>
+        </div>
+      </div>
+      <div id="adGlobalHeader" class="ad-mount ad-mount-header"></div>
+      <!-- نوارِ اشتراکِ طلایی: بیرونِ page-area می‌نشیند تا با هر ناوبری بازساخته نشود
+           و در همه‌ی صفحه‌ها یکی باشد. بستنش دائمی است (localStorage).
+           بدونِ این markup، syncGoldBanner() بی‌صدا return می‌کرد. -->
+      <div class="gold-banner" id="goldBanner" hidden>
+        <span class="gold-banner-ico" id="goldBannerIco"></span>
+        <span class="gold-banner-text">اشتراک طلایی میهن‌کرفت زندگی را زیباتر می‌کند</span>
+        <button class="btn btn-sm gold-banner-cta" id="goldBannerCta" type="button">دیدن قابلیت‌ها</button>
+        <button class="gold-banner-close" id="goldBannerClose" type="button"
+                title="دیگر نشان نده" aria-label="بستن نوار اشتراک طلایی">×</button>
+      </div>
+      <section class="page-area" id="pageArea"></section>
+    </main>
+
+    <!-- left sidebar: ad header + voice controls + friends + launcher account -->
+    <aside class="sidebar left-sidebar glass" id="leftSidebar">
+      <div id="leftSideBody" class="left-side-body"></div>
+      <div class="sidebar-foot">
+        <div class="account-card glass-2" id="accountCard">
+          <div class="acc-avatar" id="accAvatar">?</div>
+          <div class="acc-info">
+            <div class="acc-name" id="accName">بدون حساب</div>
+            <div class="acc-type" id="accType">وارد نشده</div>
+          </div>
+          <button class="acc-edit" id="accEdit" title="حساب لانچر (ورود / ثبت‌نام / آواتار)"></button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <nav id="bottomNav" class="bottom-nav" aria-label="ناوبری اصلی"></nav>
+
+  <!-- scrim behind the off-canvas sidebar drawer (small windows) -->
+  <div id="navScrim" class="nav-scrim"></div>
+
+  <!-- toast + modal mount -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="a11yLive" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="modalRoot"></div>
+
+  <script type="module" src="app.js?v=173"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>گالری طرح‌ها</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif; background: #050507; color: #e8e8f0; padding: 24px; }
+  .page-head { text-align: center; margin-bottom: 8px; }
+  .page-head h1 { font-size: 22px; }
+  .page-head p { color: #9a9ab0; font-size: 13px; margin-top: 6px; }
+  .gallery { display: flex; flex-direction: column; gap: 26px; max-width: 1100px; margin: 22px auto; }
+
+  .theme-block { border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+  .theme-label { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: #0e0e16; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .theme-num { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff; }
+  .theme-name { font-weight: 700; font-size: 15px; }
+  .theme-desc { color: #8a8aa0; font-size: 12px; }
+
+  /* ── mockup (uses CSS vars set per theme) ── */
+  .mock { display: flex; height: 300px; background: var(--bg); color: var(--text); position: relative; }
+  .mock .tb { position: absolute; top: 0; left: 0; right: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid var(--brd); }
+  .mock .tb-l { display: flex; align-items: center; gap: 9px; }
+  .mock .logo { width: 22px; height: 22px; border-radius: 7px; background: var(--grad); box-shadow: 0 0 14px var(--glow); }
+  .mock .tb-title { font-size: 11.5px; color: var(--text2); }
+  .mock .dots { display: flex; gap: 6px; }
+  .mock .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--brd2); }
+  .mock .dot.r { background: var(--accent2); opacity: .8; }
+
+  .mock .side { width: 190px; margin-top: 34px; padding: 14px 12px; background: var(--glass); backdrop-filter: blur(20px); border-left: 1px solid var(--brd); display: flex; flex-direction: column; gap: 5px; }
+  .mock .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .mock .brand .bi { width: 34px; height: 34px; border-radius: 10px; background: var(--grad); box-shadow: 0 4px 16px var(--glow); }
+  .mock .brand b { font-size: 12.5px; }
+  .mock .brand span { display: block; font-size: 10px; color: var(--accent2); }
+  .mock .nav { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 11px; font-size: 12px; color: var(--text2); }
+  .mock .nav .ic { width: 26px; height: 26px; border-radius: 8px; background: var(--glass2); }
+  .mock .nav.on { background: var(--soft); color: var(--text); border: 1px solid var(--brd2); }
+  .mock .nav.on .ic { background: var(--grad); box-shadow: 0 3px 12px var(--glow); }
+
+  .mock .main { flex: 1; margin-top: 34px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .mock .hero { border-radius: 16px; padding: 18px; border: 1px solid var(--brd2); background: var(--hero); position: relative; overflow: hidden; }
+  .mock .hero h2 { font-size: 17px; margin-bottom: 10px; }
+  .mock .play { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; background: var(--grad); color: var(--btnfg); font-weight: 700; font-size: 13px; box-shadow: 0 6px 18px var(--glow); border: none; }
+  .mock .chip { display: inline-block; margin-right: 10px; font-size: 11px; padding: 6px 12px; border-radius: 20px; background: var(--glass2); border: 1px solid var(--brd); color: var(--text2); }
+  .mock .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .mock .card { background: var(--glass); border: 1px solid var(--brd); border-radius: 14px; padding: 14px; text-align: center; backdrop-filter: blur(14px); }
+  .mock .card .num { font-size: 20px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .mock .card .lbl { font-size: 10.5px; color: var(--text2); margin-top: 3px; }
+  .mock .li { display: flex; align-items: center; gap: 10px; background: var(--glass); border: 1px solid var(--brd); border-radius: 12px; padding: 10px 12px; }
+  .mock .li .av { width: 30px; height: 30px; border-radius: 9px; background: var(--grad); }
+  .mock .li .tag { margin-right: auto; font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--soft); color: var(--accent); border: 1px solid var(--brd2); }
+</style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>۱۰ طرح برای لانچر — کدوم رو دوست داری؟</h1>
+    <p>هر طرح رو ببین و شماره‌ی موردعلاقه‌ات رو بهم بگو تا کل لانچر رو با همون بزنم.</p>
+  </div>
+  <div class="gallery" id="gallery"></div>
+<script>
+const THEMES = [
+  { name: "آرورا (فعلی)", desc: "بنفش و فیروزه‌ای شیشه‌ای روی مشکی", v: { accent:"#7c6cff", accent2:"#2dd4bf", text:"#f0eefc", text2:"#aaa8c8", glass:"rgba(255,255,255,.04)", glass2:"rgba(255,255,255,.07)", brd:"rgba(255,255,255,.09)", brd2:"rgba(255,255,255,.16)", bg:"radial-gradient(900px 500px at 88% -12%, rgba(124,108,255,.22), transparent 58%), radial-gradient(700px 400px at -5% 110%, rgba(45,212,191,.12), transparent 55%), #07070e", btnfg:"#fff" } },
+  { name: "اقیانوس عمیق", desc: "آبی نفتی و فیروزه‌ای", v: { accent:"#3b82f6", accent2:"#22d3ee", text:"#e8f0fb", text2:"#9fb2cc", glass:"rgba(255,255,255,.04)", glass2:"rgba(120,180,255,.08)", brd:"rgba(120,180,255,.12)", brd2:"rgba(120,180,255,.22)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(59,130,246,.28), transparent 60%), radial-gradient(700px 400px at 0% 110%, rgba(34,211,238,.14), transparent 55%), #060a16", btnfg:"#fff" } },
+  { name: "جنگل زمردی", desc: "سبز جنگلی و لیمویی", v: { accent:"#10b981", accent2:"#a3e635", text:"#e9f6ec", text2:"#9fc0a8", glass:"rgba(255,255,255,.035)", glass2:"rgba(120,255,180,.07)", brd:"rgba(120,255,180,.12)", brd2:"rgba(120,255,180,.22)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(16,185,129,.26), transparent 60%), radial-gradient(700px 400px at 0% 110%, rgba(163,230,53,.12), transparent 55%), #05110b", btnfg:"#03241a" } },
+  { name: "غروب گرم", desc: "مرجانی، صورتی و کهربایی", v: { accent:"#fb7185", accent2:"#fbbf24", text:"#fbeef0", text2:"#cfa9ad", glass:"rgba(255,255,255,.04)", glass2:"rgba(255,160,150,.08)", brd:"rgba(255,160,150,.14)", brd2:"rgba(255,160,150,.24)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(251,113,133,.28), transparent 60%), radial-gradient(700px 420px at 0% 110%, rgba(251,191,36,.16), transparent 55%), #140a0e", btnfg:"#fff" } },
+  { name: "یاقوت سرخ", desc: "قرمز آتشین و نارنجی", v: { accent:"#f43f5e", accent2:"#fb923c", text:"#fbe9ec", text2:"#cda0a6", glass:"rgba(255,255,255,.04)", glass2:"rgba(255,120,120,.08)", brd:"rgba(255,120,120,.14)", brd2:"rgba(255,120,120,.24)", bg:"radial-gradient(900px 520px at 85% -12%, rgba(244,63,94,.3), transparent 60%), radial-gradient(700px 400px at 0% 110%, rgba(251,146,60,.14), transparent 55%), #120609", btnfg:"#fff" } },
+  { name: "نئون سایبرپانک", desc: "مجنتا و فیروزه‌ای پرنور", v: { accent:"#ff2d95", accent2:"#00e5ff", text:"#f6e9fb", text2:"#b59ac6", glass:"rgba(255,255,255,.035)", glass2:"rgba(255,45,149,.08)", brd:"rgba(255,45,149,.18)", brd2:"rgba(0,229,255,.3)", bg:"radial-gradient(800px 500px at 88% -10%, rgba(255,45,149,.3), transparent 58%), radial-gradient(700px 420px at -2% 112%, rgba(0,229,255,.2), transparent 55%), #080210", btnfg:"#fff", glowx:"rgba(255,45,149,.55)" } },
+  { name: "فراست روشن", desc: "تم روشن، یخی و تمیز", v: { accent:"#5b6cff", accent2:"#06b6d4", text:"#1f2433", text2:"#5b647a", glass:"rgba(255,255,255,.7)", glass2:"rgba(120,130,200,.1)", brd:"rgba(40,50,90,.12)", brd2:"rgba(91,108,255,.4)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(91,108,255,.18), transparent 60%), radial-gradient(700px 400px at 0% 110%, rgba(6,182,212,.12), transparent 55%), #eef1f7", btnfg:"#fff" } },
+  { name: "طلایی نیمه‌شب", desc: "مشکی شیک با طلایی", v: { accent:"#e0b341", accent2:"#f5d77a", text:"#f5efe0", text2:"#bdb293", glass:"rgba(255,255,255,.035)", glass2:"rgba(224,179,65,.08)", brd:"rgba(224,179,65,.16)", brd2:"rgba(224,179,65,.3)", bg:"radial-gradient(900px 520px at 85% -12%, rgba(224,179,65,.18), transparent 60%), radial-gradient(600px 380px at 0% 112%, rgba(245,215,122,.08), transparent 55%), #0c0a06", btnfg:"#1a1404" } },
+  { name: "گرافیت مینیمال", desc: "خاکستری بی‌رنگ و آرام", v: { accent:"#9aa0b8", accent2:"#c6cbe0", text:"#e6e8f0", text2:"#9a9eb2", glass:"rgba(255,255,255,.04)", glass2:"rgba(255,255,255,.07)", brd:"rgba(255,255,255,.1)", brd2:"rgba(255,255,255,.2)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(150,160,190,.12), transparent 60%), #0d0e13", btnfg:"#15161c" } },
+  { name: "دراکولا", desc: "پالت کلاسیک دراکولا", v: { accent:"#bd93f9", accent2:"#ff79c6", text:"#f8f8f2", text2:"#b9bbcc", glass:"rgba(255,255,255,.04)", glass2:"rgba(189,147,249,.1)", brd:"rgba(189,147,249,.16)", brd2:"rgba(255,121,198,.3)", bg:"radial-gradient(900px 520px at 85% -10%, rgba(189,147,249,.2), transparent 60%), radial-gradient(700px 400px at 0% 110%, rgba(255,121,198,.14), transparent 55%), #282a36", btnfg:"#211f2e" } },
+];
+
+const g = document.getElementById("gallery");
+THEMES.forEach((t, i) => {
+  const v = t.v;
+  const grad = `linear-gradient(135deg, ${v.accent}, ${v.accent2})`;
+  const glow = v.glowx || (v.accent + "66");
+  const soft = v.accent + "22";
+  const hero = `radial-gradient(420px 220px at 92% -30%, ${v.accent}55, transparent 60%), linear-gradient(135deg, ${v.accent}22, ${v.accent2}11)`;
+  const styleVars = `--bg:${v.bg};--text:${v.text};--text2:${v.text2};--accent:${v.accent};--accent2:${v.accent2};--glass:${v.glass};--glass2:${v.glass2};--brd:${v.brd};--brd2:${v.brd2};--grad:${grad};--glow:${glow};--soft:${soft};--hero:${hero};--btnfg:${v.btnfg}`;
+  const block = document.createElement("div");
+  block.className = "theme-block";
+  block.innerHTML = `
+    <div class="theme-label">
+      <div class="theme-num" style="background:${grad}">${i + 1}</div>
+      <div><div class="theme-name">${t.name}</div><div class="theme-desc">${t.desc}</div></div>
+    </div>
+    <div class="mock" style="${styleVars}">
+      <div class="tb"><div class="tb-l"><div class="logo"></div><span class="tb-title">لانچر مایناکرفت فارسی</span></div><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot r"></span></div></div>
+      <div class="side">
+        <div class="brand"><div class="bi"></div><div><b>MC LAUNCHER</b><span>نسخه جاوا</span></div></div>
+        <div class="nav on"><span class="ic"></span>خانه</div>
+        <div class="nav"><span class="ic"></span>نسخه‌ها</div>
+        <div class="nav"><span class="ic"></span>ماد‌ها</div>
+        <div class="nav"><span class="ic"></span>میزبان سرور</div>
+      </div>
+      <div class="main">
+        <div class="hero"><h2>سلام رسول! 👋</h2><button class="play">▶ اجرای بازی</button><span class="chip">v1.21.4</span></div>
+        <div class="cards">
+          <div class="card"><div class="num">۳</div><div class="lbl">نسخه نصب‌شده</div></div>
+          <div class="card"><div class="num">۲</div><div class="lbl">حساب کاربری</div></div>
+          <div class="card"><div class="num">۱</div><div class="lbl">سرور</div></div>
+        </div>
+        <div class="li"><span class="av"></span><div><b style="font-size:12px">Paper 1.21.4</b></div><span class="tag">روشن</span></div>
+      </div>
+    </div>`;
+  g.appendChild(block);
+});
+</script>
+</body>
+</html>
